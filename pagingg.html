@@ -141,6 +141,26 @@
         { id: "Mi-100", name: "Roshan", experience: 6, department: 'Web' },
         //{ id: "Mi-101", name: "Roshani", experience: 1, department: 'Sales' }
     ]
+    
+    function search(){
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector("#data-table tbody");
+            tr = table.getElementsByTagName("tr");
+            const tableBody =document.querySelector('#data-table tbody');            
+            for (i = 0; i < tableBody.length; i++) {
+                td = tableBody[i].getElementsByTagName("td")[1] ;
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter)>-1) {                    
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            } 
+        }
 
     //initialize required variables
     let currentPage = 1;                                    //if we puts anyother number in currentPage then it will open that page.if input is other then the pages then it will show blank page.
