@@ -1,0 +1,104 @@
+body {
+  background-color: #242f44;
+  color: white;
+  font-family: 'Oswald', sans-serif;
+}
+
+h1 {
+  font-size: 36px;
+  padding: 15px;
+  color: #8c6b48;
+  background-color: white;
+  text-align: center;
+}
+
+p {
+  font-size: 26px;
+  text-align: center;
+}
+
+table {
+  height: 40%;
+  left: 10%;
+  margin: 20px auto;
+  overflow-y: scroll;
+  position: static;
+  width: 80%;
+}
+
+th {
+  height: 2rem;
+  background: #88CCF1;
+  color: black;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+tr {
+  background: #f4f7f8;
+  border-bottom: 1px solid #FFF;
+  margin-bottom: 3px;
+  color: #8c6b48;
+}
+
+td {
+  font-family: 'Lato', sans-serif;
+  font-weight: 100;
+  padding: 10px;
+  text-align: center;
+  width: 20%;
+  font-size: 14px;
+}
+
+#previous-button {
+  font-size: 10px;
+  background-color: #88CCF1;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px black;
+  color: black;
+  padding: 8px 14px;
+  margin: 3px;
+}
+
+#next-button {
+  font-size: 10px;
+  background-color: #88CCF1;
+  border: none;
+  cursor: pointer;
+  border-radius: 2px black;
+  color: black;
+  padding: 8px 14px;
+  margin: 3px;
+}
+
+#page-buttons {
+  font-size: 10px;
+  background-color: rgb(236, 236, 155);
+  border: none;
+  cursor: pointer;
+  border-radius: 2px black;
+  color: #fff;
+  padding: 8px 14px;
+  margin: 3px;
+  word-spacing: 5px;
+}
+
+#pagination {
+  width: calc(100% - 2rem);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 30px;
+  margin-bottom: 90px;
+  padding: 1rem 0;
+  justify-content: center;
+}
+
+#pagination #page-buttons button.active {
+  color: #fff;
+  background: goldenrod;
+}
