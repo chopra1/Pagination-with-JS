@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination</title>
+    <style>
+        #myTable {
+            border-collapse: collapse;
+            width: 80%;
+            margin-bottom: 20px;
+            margin-left: 5rem;
+        }
+
+        #myTable th,
+        #myTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #myTable th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin-right: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+        button[disabled] {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .active {
+            background-color: #008CBA;
+        }
+
+        #searchBox {
+            padding: 8px;
+            margin-right: 28px;
+            margin-top: 35px;
+            font-size: 14px;
+        }
+
+        #searchBtn {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        #searchBtn:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>DEPARTMENT</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div>
+        <button id="previous">Previous</button>
+        <div id="pageNumberContainer"></div>
+        <button id="next">Next</button>
+    </div>
+
+    <div>
+        <input type="text" id="searchBox">
+        <button id="searchBtn">Search</button>
+    </div>
+
+    <script>
+        const myArray = [  //this runs first 
+            { id: "Mi-01", name: "Aashish", department: 'Web' },
+            { id: "Mi-02", name: "Aman", department: 'Web' },
+            { id: "Mi-03", name: "Aashutosh", department: 'Mobile' },
+            { id: "Mi-04", name: "Akash", department: 'Sales' },
+            { id: "Mi-05", name: "Akshay", department: 'Web' },
+            { id: "Mi-06", name: "Abhishek", department: 'Sales' },
+            { id: "Mi-07", name: "Bharat", department: 'Business Development' },
+            { id: "Mi-08", name: "Bhushan", department: 'Marketing' },
+            { id: "Mi-09", name: "Bansal", department: 'Canteen' },
+            { id: "Mi-10", name: "Bhavin", department: 'Web' },
+            { id: "Mi-11", name: "Bhavesh", department: 'Mobile' },
+            { id: "Mi-12", name: "Chetan", department: 'Web' },
+            { id: "Mi-13", name: "Chirag", department: 'Mobile' },
+            { id: "Mi-14", name: "Chandan", department: 'Sales' },
+            { id: "Mi-15", name: "Chitesh", department: 'Marketing' },
+            { id: "Mi-16", name: "Dhushyant", department: 'HR' },
+            { id: "Mi-17", name: "Dhiraj", department: 'Business Development' },
+            { id: "Mi-18", name: "Dharshan", department: 'Marketing' },
+            { id: "Mi-19", name: "Dhananand", department: 'Cyber Security' },
+            { id: "Mi-20", name: "Ellis", department: 'Web' },
+            { id: "Mi-21", name: "Elam", department: 'Mobile' },
+            { id: "Mi-22", name: "Eshan", department: 'Web' },
+            { id: "Mi-23", name: "Farhan", department: 'Marketing' },
+            { id: "Mi-24", name: "Faizal", department: 'Mobile' },
+            { id: "Mi-25", name: "Fahad", department: 'Web' },
+            { id: "Mi-26", name: "Firoz", department: 'Sales' },
+            { id: "Mi-27", name: "Ghyan", department: 'Web' },
+            { id: "Mi-28", name: "Ganesh", department: 'Marketing' },
+            { id: "Mi-29", name: "Gajjar", department: 'Reception' },
+            { id: "Mi-30", name: "Hitesh", department: 'Admin' },
+            { id: "Mi-31", name: "Hiren", department: 'Marketing' },
+            { id: "Mi-32", name: "Hemal", department: 'Admin' },
+            { id: "Mi-33", name: "Himanshu", department: 'Reception' },
+            { id: "Mi-34", name: "Hardik", department: 'Marketing' },
+            { id: "Mi-35", name: "Hitanshu", department: 'Web' },
+            { id: "Mi-36", name: "Iqbal", department: 'Sales' },
+            { id: "Mi-37", name: "Isha", department: 'Admin' },
+            { id: "Mi-38", name: "Ishika", department: 'Mobile' },
+            { id: "Mi-39", name: "Ishani", department: 'Business Development' },
+            { id: "Mi-40", name: "Ishan", department: 'Marketing' },
+            { id: "Mi-41", name: "Ishwar", department: 'Admin' },
+            { id: "Mi-42", name: "Jatin", department: 'Web' },
+            { id: "Mi-43", name: "Jiyansh", department: 'Mobile' },
+            { id: "Mi-44", name: "Jignesh", department: 'Sales' },
+            { id: "Mi-45", name: "Jainil", department: 'Gaming' },
+            { id: "Mi-46", name: "Jai", department: 'Web' },
+            { id: "Mi-47", name: "Jay", department: 'Business Development' },
+            { id: "Mi-48", name: "Jagdish", department: 'Marketing' },
+            { id: "Mi-49", name: "Jagat", department: 'Admin' },
+            { id: "Mi-50", name: "Jaishri", department: 'Sales' },
+            { id: "Mi-51", name: "Jalpa", department: 'Mobile' },
+            { id: "Mi-52", name: "Jayraj", department: 'Web' },
+            { id: "Mi-53", name: "Kiran", department: 'Manangement' },
+            { id: "Mi-54", name: "Karan", department: 'Web' },
+            { id: "Mi-55", name: "Kumar", department: 'Sales' },
+            { id: "Mi-56", name: "Khanna", department: 'Admin' },
+            { id: "Mi-57", name: "Kapoor", department: 'Business Development' },
+            { id: "Mi-58", name: "Kishore", department: 'Marketing' },
+            { id: "Mi-59", name: "Kapil", department: 'Canteen' },
+            { id: "Mi-60", name: "Kantilal", department: 'Admin' },
+            { id: "Mi-61", name: "Kanjan", department: 'Marketing' },
+            { id: "Mi-62", name: "Lakhan", department: 'Web' },
+            { id: "Mi-63", name: "Lucky", department: 'Mobile' },
+            { id: "Mi-64", name: "Lakshman", department: 'Cyber Security' },
+            { id: "Mi-65", name: "Lakwinder", department: 'Web' },
+            { id: "Mi-66", name: "Lala", department: 'Sales' },
+            { id: "Mi-67", name: "Loha", department: 'Business Development' },
+            { id: "Mi-68", name: "Mayank", department: 'Marketing' },
+            { id: "Mi-69", name: "Mani", department: 'Canteen' },
+            { id: "Mi-70", name: "Manish", department: 'Web' },
+            { id: "Mi-71", name: "Mohit", department: 'Sales' },
+            { id: "Mi-72", name: "Mohan", department: 'Web' },
+            { id: "Mi-73", name: "Manek", department: 'Mobile' },
+            { id: "Mi-74", name: "Mohammad", department: 'Sales' },
+            { id: "Mi-75", name: "Mukul", department: 'Business Development' },
+            { id: "Mi-76", name: "Michel", department: 'Sales' },
+            { id: "Mi-77", name: "Messy", department: 'Business Development' },
+            { id: "Mi-78", name: "Neha", department: 'Admin' },
+            { id: "Mi-79", name: "Naina", department: 'Sales' },
+            { id: "Mi-80", name: "Naman", department: 'Web' },
+            { id: "Mi-81", name: "Nikhil", department: 'Web' },
+            { id: "Mi-82", name: "Nayan", department: 'Mobile' },
+            { id: "Mi-83", name: "Nikita", department: 'Reception' },
+            { id: "Mi-84", name: "Opinder", department: 'Sales' },
+            { id: "Mi-85", name: "Om", department: 'Web' },
+            { id: "Mi-86", name: "Omkar", department: 'Web' },
+            { id: "Mi-87", name: "Onam", department: 'Business Development' },
+            { id: "Mi-88", name: "Patrik", department: 'Marketing' },
+            { id: "Mi-89", name: "Paras", department: 'Cyber Security' },
+            { id: "Mi-90", name: "Piyush", department: 'Web' },
+            { id: "Mi-91", name: "Patel", department: 'Business Development' },
+            { id: "Mi-92", name: "Priyanshu", department: 'Web' },
+            { id: "Mi-93", name: "Priya", department: 'Mobile' },
+            { id: "Mi-94", name: "Prakash", department: 'Sales' },
+            { id: "Mi-95", name: "Rohit", department: 'Web' },
+            { id: "Mi-96", name: "Rohan", department: 'Sales' },
+            { id: "Mi-97", name: "Raman", department: 'Business Development' },
+            { id: "Mi-98", name: "Rishi", department: 'Marketing' },
+            { id: "Mi-99", name: "Raghav", department: 'Cyber Security' },
+            { id: "Mi-100", name: "Roshan", department: 'Web' }
+        ]
+
+        // Define the table, pagination, and page number variables
+        const table = document.getElementById('myTable').getElementsByTagName('tbody')[0];   //only ('tbody') will not work as getElementsByTagName returns a list of elements.If you want to target the first, use: document.getElementsByTagName("tbody")[0];
+        const previousBtn = document.getElementById('previous');
+        const nextBtn = document.getElementById('next');
+        const searchBox = document.getElementById('searchBox');
+        const searchBtn = document.getElementById('searchBtn');
+        const pageNumberContainer = document.getElementById('pageNumberContainer');
+
+        let currentPage = 1;
+        const rowsPerPage = 10;
+        let totalPages = Math.ceil(myArray.length / rowsPerPage);  // 101/10 = 11 as Math.ceil gives next round-off number.
+
+        // Define the function to display the table
+        function displayTable(rows) {
+            table.innerHTML = '';
+            for (let i = 0; i < rows.length; i++) {
+                const row = table.insertRow(i);
+                const id = row.insertCell(0);
+                const name = row.insertCell(1);
+                const department = row.insertCell(2);
+                id.innerHTML = rows[i].id;
+                name.innerHTML = rows[i].name;
+                department.innerHTML = rows[i].department;
+            }
+        }
+
+        // Define the function to handle the previous button click
+        function previous() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTable(myArray.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
+                updatePagination();
+            }
+        }
+
+        // Define the function to handle the next button click
+        function next() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayTable(myArray.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
+                updatePagination();
+            }
+        }
+
+        // Define the function to handle the page number click
+        function pageNumberClick(i) {
+            const pageNumber = parseInt(i.target.dataset.pageNumber);
+            if (pageNumber !== currentPage) {
+                currentPage = pageNumber;
+                displayTable(myArray.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
+                updatePagination();
+            }
+        }
+
+        // Define the function to handle the search button click
+        function search() {
+            const searchTerm = searchBox.value.toLowerCase();
+            const filteredRows = myArray.filter(row =>
+                Object.values(row).some(val => val.toLowerCase().includes(searchTerm))
+            );
+            currentPage = 1;
+            displayTable(filteredRows.slice(0, rowsPerPage));
+            totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            updatePagination();
+        }
+
+        // Define the function to update the pagination buttons and page numbers
+        function updatePagination() {
+            previousBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            pageNumberContainer.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const pageNumber = document.createElement('button');
+                pageNumber.innerText = i;                              //.innerText is HTML method which is used rto write dynamic text in html document
+                pageNumber.dataset.pageNumber = i;
+                //dataset is a document-orientated module property to acces and set the data attribute using JS elements
+                //it is an interface to create, delete, handle and mantain data of an application
+                //dataset is a set/collection of data
+
+                pageNumber.addEventListener('click', pageNumberClick);
+                if (i === currentPage) {
+                    pageNumber.classList.add('active');
+                }
+                pageNumberContainer.appendChild(pageNumber);
+            }
+        }
+
+        // Add event listeners to the pagination buttons and search button
+        previousBtn.addEventListener('click', previous);
+        nextBtn.addEventListener('click', next);
+        searchBtn.addEventListener('click', search);
+
+        // Display the initial table and pagination
+        displayTable(myArray.slice(0, rowsPerPage));
+        updatePagination();
+
+    </script>
+</body>
+
+</html>
