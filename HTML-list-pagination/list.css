@@ -1,0 +1,61 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+    text-transform: uppercase;
+    font-style: italic;
+    text-align: center;
+    text-decoration: solid;
+    background-position: absolute;
+    background-image: url('watercolor-background.webp');
+    background-repeat: no-repeat;
+    margin-top: 200px;
+  }
+
+  ul {
+    color: purple;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    margin-left: 33%;
+  }
+
+  ul li {
+    border: 2px solid black;
+    /*display: inline-block;*/
+    width: 45%;
+    padding: 0;
+    /*display: inline-block;*/
+    border-radius: 25px;
+    border-spacing: 8px;
+    margin-block: 5px;
+    align-self: center;
+    text-align: center;
+  }
+  
+  .pagination-container {
+    width: calc(100% - 2rem);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 30px;
+    margin-bottom: 90px;
+    padding: 1rem 0;
+    justify-content: center;
+  }
+  
+  .pagination-button{
+    font-size: 10px;
+    background-color: #b70000;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px black;
+    color: #fff;
+    padding: 8px 14px;
+    margin: 3px;
+  }
+
+  .pagination-container #pagination-numbers button.active {
+    color: #fff;
+    background: #0085b6;
+  }
