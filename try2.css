@@ -1,0 +1,37 @@
+body {
+  color: black;
+  background-color: rgb(228, 219, 219);
+
+}
+
+#btn_prev , #btn_next {
+  background-color: rgb(57, 126, 57);
+  text-align: center;
+  position: static;
+  margin-top: 80px;
+  font-size: 10px;
+  border: dotted;
+  cursor: pointer;
+  border-radius: 2px black;
+  padding: 8px 14px;
+  margin: 3px;
+  margin-left: 450px;
+  height:auto;
+  
+}
+
+#listingTable {
+  border: groove;
+  background-color: rgba(235, 161, 161);
+  margin: 100px, 6px, 100px, 3px;
+  margin-left: 34%;
+  text-decoration: solid;
+  text-align: center; 
+  font-family: 'Courier New', Courier, monospace;
+  font-size:larger;
+  width: 400px;
+  align-self: center;
+  position: relative;
+  padding: auto;
+  position: relative;
+}

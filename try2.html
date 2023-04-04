@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="try2.css">
+</head>
+
+<body>
+    <div id="listingTable"></div>
+    <div id="pagination-numbers">
+    <button onclick="prevPage()" id="btn_prev">&lt;</button>
+    <button onclick="nextPage()" id="btn_next">&gt;</button>
+    </div>
+
+
+    <script>
+        var obj = [
+            { id: "Mi-01", name: "Aashish", experience: 1, department: 'Web' },
+            { id: "Mi-02", name: "Aman", experience: 1, department: 'Web' },
+            { id: "Mi-03", name: "Aashutosh", experience: 2, department: 'Mobile' },
+            { id: "Mi-04", name: "Akash", experience: 3, department: 'Sales' },
+            { id: "Mi-05", name: "Akshay", experience: 0.6, department: 'Web' },
+            { id: "Mi-06", name: "Abhishek", experience: 6, department: 'Sales' },
+            { id: "Mi-07", name: "Bharat", experience: 7, department: 'Business Development' },
+            { id: "Mi-08", name: "Bhushan", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-09", name: "Bansal", experience: 9, department: 'Canteen' },
+            { id: "Mi-10", name: "Bhavin", experience: 6, department: 'Web' },
+            { id: "Mi-11", name: "Bhavesh", experience: 2, department: 'Mobile' },
+            { id: "Mi-12", name: "Chetan", experience: 0.1, department: 'Web' },
+            { id: "Mi-13", name: "Chirag", experience: 4, department: 'Mobile' },
+            { id: "Mi-14", name: "Chandan", experience: 3, department: 'Sales' },
+            { id: "Mi-15", name: "Chitesh", experience: 6, department: 'Marketing' },
+            { id: "Mi-16", name: "Dhushyant", experience: 7, department: 'HR' },
+            { id: "Mi-17", name: "Dhiraj", experience: 5, department: 'Business Development' },
+            { id: "Mi-18", name: "Dharshan", experience: 6, department: 'Marketing' },
+            { id: "Mi-19", name: "Dhananand", experience: 9, department: 'Cyber Security' },
+            { id: "Mi-20", name: "Ellis", experience: 2, department: 'Web' },
+            { id: "Mi-21", name: "Elam", experience: 6, department: 'Mobile' },
+            { id: "Mi-22", name: "Eshan", experience: 5, department: 'Web' },
+            { id: "Mi-23", name: "Farhan", experience: 2, department: 'Marketing' },
+            { id: "Mi-24", name: "Faizal", experience: 3, department: 'Mobile' },
+            { id: "Mi-25", name: "Fahad", experience: 6, department: 'Web' },
+            { id: "Mi-26", name: "Firoz", experience: 3, department: 'Sales' },
+            { id: "Mi-27", name: "Ghyan", experience: 7, department: 'Web' },
+            { id: "Mi-28", name: "Ganesh", experience: 6, department: 'Marketing' },
+            { id: "Mi-29", name: "Gajjar", experience: 4, department: 'Reception' },
+            { id: "Mi-30", name: "Hitesh", experience: 8, department: 'Admin' },
+            { id: "Mi-31", name: "Hiren", experience: 5, department: 'Marketing' },
+            { id: "Mi-32", name: "Hemal", experience: 5, department: 'Admin' },
+            { id: "Mi-33", name: "Himanshu", experience: 6, department: 'Reception' },
+            { id: "Mi-34", name: "Hardik", experience: 7, department: 'Marketing' },
+            { id: "Mi-35", name: "Hitanshu", experience: 0.6, department: 'Web' },
+            { id: "Mi-36", name: "Iqbal", experience: 2, department: 'Sales' },
+            { id: "Mi-37", name: "Isha", experience: 1, department: 'Admin' },
+            { id: "Mi-38", name: "Ishika", experience: 4, department: 'Mobile' },
+            { id: "Mi-39", name: "Ishani", experience: 1, department: 'Business Development' },
+            { id: "Mi-40", name: "Ishan", experience: 6, department: 'Marketing' },
+            { id: "Mi-41", name: "Ishwar", experience: 10, department: 'Admin' },
+            { id: "Mi-42", name: "Jatin", experience: 4, department: 'Web' },
+            { id: "Mi-43", name: "Jiyansh", experience: 0.4, department: 'Mobile' },
+            { id: "Mi-44", name: "Jignesh", experience: 3, department: 'Sales' },
+            { id: "Mi-45", name: "Jainil", experience: 0.6, department: 'Gaming' },
+            { id: "Mi-46", name: "Jai", experience: 6, department: 'Web' },
+            { id: "Mi-47", name: "Jay", experience: 7, department: 'Business Development' },
+            { id: "Mi-48", name: "Jagdish", experience: 10, department: 'Marketing' },
+            { id: "Mi-49", name: "Jagat", experience: 4, department: 'Admin' },
+            { id: "Mi-50", name: "Jaishri", experience: 6, department: 'Sales' },
+            { id: "Mi-51", name: "Jalpa", experience: 5, department: 'Mobile' },
+            { id: "Mi-52", name: "Jayraj", experience: 10, department: 'Web' },
+            { id: "Mi-53", name: "Kiran", experience: 20, department: 'Manangement' },
+            { id: "Mi-54", name: "Karan", experience: 5, department: 'Web' },
+            { id: "Mi-55", name: "Kumar", experience: 0.6, department: 'Sales' },
+            { id: "Mi-56", name: "Khanna", experience: 16, department: 'Admin' },
+            { id: "Mi-57", name: "Kapoor", experience: 7, department: 'Business Development' },
+            { id: "Mi-58", name: "Kishore", experience: 16, department: 'Marketing' },
+            { id: "Mi-59", name: "Kapil", experience: 9, department: 'Canteen' },
+            { id: "Mi-60", name: "Kantilal", experience: 16, department: 'Admin' },
+            { id: "Mi-61", name: "Kanjan", experience: 10, department: 'Marketing' },
+            { id: "Mi-62", name: "Lakhan", experience: 11, department: 'Web' },
+            { id: "Mi-63", name: "Lucky", experience: 2, department: 'Mobile' },
+            { id: "Mi-64", name: "Lakshman", experience: 3, department: 'Cyber Security' },
+            { id: "Mi-65", name: "Lakwinder", experience: 7, department: 'Web' },
+            { id: "Mi-66", name: "Lala", experience: 6, department: 'Sales' },
+            { id: "Mi-67", name: "Loha", experience: 7, department: 'Business Development' },
+            { id: "Mi-68", name: "Mayank", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-69", name: "Mani", experience: 9, department: 'Canteen' },
+            { id: "Mi-70", name: "Manish", experience: 6, department: 'Web' },
+            { id: "Mi-71", name: "Mohit", experience: 7, department: 'Sales' },
+            { id: "Mi-72", name: "Mohan", experience: 5, department: 'Web' },
+            { id: "Mi-73", name: "Manek", experience: 5, department: 'Mobile' },
+            { id: "Mi-74", name: "Mohammad", experience: 3, department: 'Sales' },
+            { id: "Mi-75", name: "Mukul", experience: 6, department: 'Business Development' },
+            { id: "Mi-76", name: "Michel", experience: 16, department: 'Sales' },
+            { id: "Mi-77", name: "Messy", experience: 7, department: 'Business Development' },
+            { id: "Mi-78", name: "Neha", experience: 0.6, department: 'Admin' },
+            { id: "Mi-79", name: "Naina", experience: 4, department: 'Sales' },
+            { id: "Mi-80", name: "Naman", experience: 6, department: 'Web' },
+            { id: "Mi-81", name: "Nikhil", experience: 5, department: 'Web' },
+            { id: "Mi-82", name: "Nayan", experience: 7, department: 'Mobile' },
+            { id: "Mi-83", name: "Nikita", experience: 2, department: 'Reception' },
+            { id: "Mi-84", name: "Opinder", experience: 3, department: 'Sales' },
+            { id: "Mi-85", name: "Om", experience: 0.6, department: 'Web' },
+            { id: "Mi-86", name: "Omkar", experience: 6, department: 'Web' },
+            { id: "Mi-87", name: "Onam", experience: 7, department: 'Business Development' },
+            { id: "Mi-88", name: "Patrik", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-89", name: "Paras", experience: 3, department: 'Cyber Security' },
+            { id: "Mi-90", name: "Piyush", experience: 6, department: 'Web' },
+            { id: "Mi-91", name: "Patel", experience: 1, department: 'Business Development' },
+            { id: "Mi-92", name: "Priyanshu", experience: 8, department: 'Web' },
+            { id: "Mi-93", name: "Priya", experience: 4, department: 'Mobile' },
+            { id: "Mi-94", name: "Prakash", experience: 3, department: 'Sales' },
+            { id: "Mi-95", name: "Rohit", experience: 0.6, department: 'Web' },
+            { id: "Mi-96", name: "Rohan", experience: 6, department: 'Sales' },
+            { id: "Mi-97", name: "Raman", experience: 7, department: 'Business Development' },
+            { id: "Mi-98", name: "Rishi", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-99", name: "Raghav", experience: 9, department: 'Cyber Security' },
+            { id: "Mi-100", name: "Roshan", experience: 6, department: 'Web' }
+        ];
+
+        var current_page = 1;
+        var records_per_page = 10;
+
+        var paginationNumber = document.getElementById('pagination-numbers');
+        var buttonCount = obj.length / records_per_page;
+        console.log(buttonCount)
+
+        // for (var i = 1; i <= buttonCount; i++) {
+        //     var button = document.createElement('button');
+        //     button.innerHTML = i;
+        //     paginationNumber.appendChild(button);
+        // }
+
+        function prevPage() {
+            if (current_page > 1) {
+                current_page--;
+                changePage(current_page);
+            }
+        }
+
+        function nextPage() {
+            if (current_page < numPages()) {
+                current_page++;
+                changePage(current_page);
+            }
+        }
+
+        function changePage(page) {
+            var btn_prev = document.getElementById('btn_prev');
+            var btn_next = document.getElementById('btn_next');
+            var listing_table = document.getElementById('listingTable');
+
+            //validate the page
+            if (page == 1) page = 1;
+
+            console.log(page)
+            if (page > numPages()) page = numPages();
+
+
+            listing_table.innerHTML = '';
+
+            //for between pages
+            for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < obj.length; i++) {
+                listing_table.innerHTML += obj[i].id + ' ' + obj[i].name + ' ' + obj[i].experience + ' ' + obj[i].department + '<br>';
+            }
+
+            //page_span.innerHTML = page + '/' + numPages();
+
+            //for number 1 page
+            if (page == 1) {
+                btn_prev.style.visibility = 'hidden';
+            } else {
+                btn_prev.style.visibility = 'visible';
+            }
+
+            //for last page
+            if (page == numPages()) {
+                btn_next.style.visibility = 'hidden';
+            } else {
+                btn_next.style.visibility = 'visible';
+            }
+        }
+
+        function numPages() {
+            return Math.ceil(obj.length / records_per_page);
+        }
+
+        window.onload = function () {
+            changePage(1);
+        };
+
+    </script>
+</body>
+
+</html>
