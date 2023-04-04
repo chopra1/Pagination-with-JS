@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<div id="listingTable"></div>
+	<div>
+	<a href="javascript:prevPage()" id="btn_prev">Prev</a>
+	<div id="pagination-numbers"></div>
+	<a href="javascript:nextPage()" id="btn_next">Next</a>
+	</div>
+	<!-- page: <span id="page"></span> -->
+
+	<script>
+
+		var objJson = [
+			{ adName: "AdName 1" , adMail: "mail 1"},
+			{ adName: "AdName 2" , adMail: "mail 2"},
+			{ adName: "AdName 3" , adMail: "mail 3"},
+			{ adName: "AdName 4" , adMail: "mail 4"},
+			{ adName: "AdName 5" , adMail: "mail 5"},
+			{ adName: "AdName 6" , adMail: "mail 6"},
+			{ adName: "AdName 7" , adMail: "mail 7"},
+			{ adName: "AdName 8" , adMail: "mail 8"},
+			{ adName: "AdName 9" , adMail: "mail 9"},
+			{ adName: "AdName 10" , adMail: "mail 10"}
+		]; // Can be obtained from another source, such as your objJson variable
+        objJson[objJson.length] = { adName: "Adname 11" , adMail: 'mail 11'};
+        objJson[objJson.length] = { adName: "Adname 12" , adMail: 'mail 13'};
+
+		var current_page = 1;
+		var records_per_page = 3;
+		var pagination_number = document.getElementById("pagination-numbers");
+		var button_count = Math.ceil(objJson.length/records_per_page);
+
+		for(let i = 1; i <= button_count; i++){
+			var button = document.createElement("button");
+			button.innerHTML = i;
+			pagination_number.appendChild(button);
+		}
+
+		function prevPage() {
+			if (current_page > 1) {
+				current_page--;
+				changePage(current_page);
+			}
+		}
+
+		function nextPage() {
+			if (current_page < numPages()) {
+				current_page++;
+				changePage(current_page);
+			}
+		}
+
+		function changePage(page) {
+			var btn_next = document.getElementById("btn_next");
+			var btn_prev = document.getElementById("btn_prev");
+			var listing_table = document.getElementById("listingTable");
+			var pagination_number = document.getElementById("pagination-numbers");
+			//var page_span = document.getElementById("page");
+
+			//Validate page
+			if (page < 1) page = 1;
+			if (page > numPages()) page = numPages();
+
+			listing_table.innerHTML = "";
+            
+			//very important
+			//for between pages
+			for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
+				listing_table.innerHTML += objJson[i].adName + " " + objJson[i].adMail + "<br>";
+			}
+			// page_span.innerHTML = page + "/" + numPages();
+            
+			//for number 1 page
+			if (page == 1) {
+				btn_prev.style.visibility = "hidden";
+			} else {
+				btn_prev.style.visibility = "visible";
+			}
+            
+			//for last page
+			if (page == numPages()) {
+				btn_next.style.visibility = "hidden";
+			} else {
+				btn_next.style.visibility = "visible";
+			}
+		}
+
+		function numPages() {
+			return Math.ceil(objJson.length / records_per_page);
+		}
+
+		window.onload = function () {
+			changePage(1);
+		};
+
+	</script>
+</body>
+
+</html>
