@@ -15,13 +15,15 @@
         <p>Table below displays information about the employees working in an orgainsation.</p>
     </div>
 
+    <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Name.." title="Type in a name">
+
     <table id="data-table">
         <thead>
             <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Experience</th>
-            <th>Department</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Experience</th>
+                <th>Department</th>
             </tr>
         </thead>
         <tbody>
@@ -29,128 +31,337 @@
         </tbody>
     </table>
 
+    <!-- we can use nav allows
+    <nav class="pagination-container"> -->
     <div id="pagination">
-        <button id="previous-button">&lt;</button>
+        <button id="previous-button" title="Previous Page">&lt;</button>
         <div id="page-buttons"></div>
-        <button id="next-button">&gt;</button>
+        <button id="next-button" title="Next Page">&gt;</button>
     </div>
+    <!--</nav>-->
 
 
-<script>
-    //data input
-    const data = [ 
-        { id: "Mi-01", name: "Aashish", experience: 1, department: 'Web' },
-        { id: "Mi-02", name: "Aman", experience: 1, department: 'Web' },
-        { id: "Mi-03", name: "Aashutosh", experience: 2, department: 'Mobile' },
-        { id: "Mi-04", name: "Akash", experience: 3, department: 'Sales' },
-        { id: "Mi-05", name: "Akshay", experience: 0.6, department: 'Web' },
-        { id: "Mi-06", name: "Abhishek", experience: 6, department: 'Sales' },
-        { id: "Mi-07", name: "Bharat", experience: 7, department: 'Business Development' },
-        { id: "Mi-08", name: "Bhushan", experience: 0.6, department: 'Marketing' },
-        { id: "Mi-09", name: "Bansal", experience: 9, department: 'Canteen' },
-        { id: "Mi-10", name: "Bhavin", experience: 6, department: 'Web' },
-        { id: "Mi-11", name: "Bhavesh", experience: 2, department: 'Mobile' },
-        { id: "Mi-12", name: "Chetan", experience: 0.1, department: 'Web' },
-        { id: "Mi-13", name: "Chirag", experience: 4, department: 'Mobile' },
-        { id: "Mi-14", name: "Chandan", experience: 3, department: 'Sales' },
-        { id: "Mi-15", name: "Chitesh", experience: 6, department: 'Marketing' },
-        { id: "Mi-16", name: "Dhushyant", experience: 7, department: 'HR' },
-        { id: "Mi-17", name: "Dhiraj", experience: 5, department: 'Business Development' },
-        { id: "Mi-18", name: "Dharshan", experience: 6, department: 'Marketing' },
-        { id: "Mi-19", name: "Dhananand", experience: 9, department: 'Cyber Security' },
-        { id: "Mi-20", name: "Ellis", experience: 2, department: 'Web' },
-        { id: "Mi-21", name: "Elam", experience: 6, department: 'Mobile' },
-        { id: "Mi-22", name: "Eshan", experience: 5, department: 'Web' },
-        { id: "Mi-23", name: "Farhan", experience: 2, department: 'Marketing' },
-        { id: "Mi-24", name: "Faizal", experience: 3, department: 'Mobile' },
-        { id: "Mi-25", name: "Fahad", experience: 6, department: 'Web' },
-        { id: "Mi-26", name: "Firoz", experience: 3, department: 'Sales' },
-        { id: "Mi-27", name: "Ghyan", experience: 7, department: 'Web' },
-        { id: "Mi-28", name: "Ganesh", experience: 6, department: 'Marketing' },
-        { id: "Mi-29", name: "Gajjar", experience: 4, department: 'Reception' },
-        { id: "Mi-30", name: "Hitesh", experience: 8, department: 'Admin' },
-        { id: "Mi-31", name: "Hiren", experience: 5, department: 'Marketing' },
-        { id: "Mi-32", name: "Hemal", experience: 5, department: 'Admin' },
-        { id: "Mi-33", name: "Himanshu", experience: 6, department: 'Reception' },
-        { id: "Mi-34", name: "Hardik", experience: 7, department: 'Marketing' },
-        { id: "Mi-35", name: "Hitanshu", experience: 0.6, department: 'Web' },
-        { id: "Mi-36", name: "Iqbal", experience: 2, department: 'Sales' },
-        { id: "Mi-37", name: "Isha", experience: 1, department: 'Admin' },
-        { id: "Mi-38", name: "Ishika", experience: 4, department: 'Mobile' },
-        { id: "Mi-39", name: "Ishani", experience: 1, department: 'Business Development' },
-        { id: "Mi-40", name: "Ishan", experience: 6, department: 'Marketing' },
-        { id: "Mi-41", name: "Ishwar", experience: 10, department: 'Admin' },
-        { id: "Mi-42", name: "Jatin", experience: 4, department: 'Web' },
-        { id: "Mi-43", name: "Jiyansh", experience: 0.4, department: 'Mobile' },
-        { id: "Mi-44", name: "Jignesh", experience: 3, department: 'Sales' },
-        { id: "Mi-45", name: "Jainil", experience: 0.6, department: 'Gaming' },
-        { id: "Mi-46", name: "Jai", experience: 6, department: 'Web' },
-        { id: "Mi-47", name: "Jay", experience: 7, department: 'Business Development' },
-        { id: "Mi-48", name: "Jagdish", experience: 10, department: 'Marketing' },
-        { id: "Mi-49", name: "Jagat", experience: 4, department: 'Admin' },
-        { id: "Mi-50", name: "Jaishri", experience: 6, department: 'Sales' },
-        { id: "Mi-51", name: "Jalpa", experience: 5, department: 'Mobile' },
-        { id: "Mi-52", name: "Jayraj", experience: 10, department: 'Web' },
-        { id: "Mi-53", name: "Kiran", experience: 20, department: 'Manangement' },
-        { id: "Mi-54", name: "Karan", experience: 5, department: 'Web' },
-        { id: "Mi-55", name: "Kumar", experience: 0.6, department: 'Sales' },
-        { id: "Mi-56", name: "Khanna", experience: 16, department: 'Admin' },
-        { id: "Mi-57", name: "Kapoor", experience: 7, department: 'Business Development' },
-        { id: "Mi-58", name: "Kishore", experience: 16, department: 'Marketing' },
-        { id: "Mi-59", name: "Kapil", experience: 9, department: 'Canteen' },
-        { id: "Mi-60", name: "Kantilal", experience: 16, department: 'Admin' },
-        { id: "Mi-61", name: "Kanjan", experience: 10, department: 'Marketing' },
-        { id: "Mi-62", name: "Lakhan", experience: 11, department: 'Web' },
-        { id: "Mi-63", name: "Lucky", experience: 2, department: 'Mobile' },
-        { id: "Mi-64", name: "Lakshman", experience: 3, department: 'Cyber Security' },
-        { id: "Mi-65", name: "Lakwinder", experience: 7, department: 'Web' },
-        { id: "Mi-66", name: "Lala", experience: 6, department: 'Sales' },
-        { id: "Mi-67", name: "Loha", experience: 7, department: 'Business Development' },
-        { id: "Mi-68", name: "Mayank", experience: 0.6, department: 'Marketing' },
-        { id: "Mi-69", name: "Mani", experience: 9, department: 'Canteen' },
-        { id: "Mi-70", name: "Manish", experience: 6, department: 'Web' },
-        { id: "Mi-71", name: "Mohit", experience: 7, department: 'Sales' },
-        { id: "Mi-72", name: "Mohan", experience: 5, department: 'Web' },
-        { id: "Mi-73", name: "Manek", experience: 5, department: 'Mobile' },
-        { id: "Mi-74", name: "Mohammad", experience: 3, department: 'Sales' },
-        { id: "Mi-75", name: "Mukul", experience: 6, department: 'Business Development' },
-        { id: "Mi-76", name: "Michel", experience: 16, department: 'Sales' },
-        { id: "Mi-77", name: "Messy", experience: 7, department: 'Business Development' },
-        { id: "Mi-78", name: "Neha", experience: 0.6, department: 'Admin' },
-        { id: "Mi-79", name: "Naina", experience: 4, department: 'Sales' },
-        { id: "Mi-80", name: "Naman", experience: 6, department: 'Web' },
-        { id: "Mi-81", name: "Nikhil", experience: 5, department: 'Web' },
-        { id: "Mi-82", name: "Nayan", experience: 7, department: 'Mobile' },
-        { id: "Mi-83", name: "Nikita", experience: 2, department: 'Reception' },
-        { id: "Mi-84", name: "Opinder", experience: 3, department: 'Sales' },
-        { id: "Mi-85", name: "Om", experience: 0.6, department: 'Web' },
-        { id: "Mi-86", name: "Omkar", experience: 6, department: 'Web' },
-        { id: "Mi-87", name: "Onam", experience: 7, department: 'Business Development' },
-        { id: "Mi-88", name: "Patrik", experience: 0.6, department: 'Marketing' },
-        { id: "Mi-89", name: "Paras", experience: 3, department: 'Cyber Security' },
-        { id: "Mi-90", name: "Piyush", experience: 6, department: 'Web' },
-        { id: "Mi-91", name: "Patel", experience: 1, department: 'Business Development' },
-        { id: "Mi-92", name: "Priyanshu", experience: 8, department: 'Web' },
-        { id: "Mi-93", name: "Priya", experience: 4, department: 'Mobile' },
-        { id: "Mi-94", name: "Prakash", experience: 3, department: 'Sales' },
-        { id: "Mi-95", name: "Rohit", experience: 0.6, department: 'Web' },
-        { id: "Mi-96", name: "Rohan", experience: 6, department: 'Sales' },
-        { id: "Mi-97", name: "Raman", experience: 7, department: 'Business Development' },
-        { id: "Mi-98", name: "Rishi", experience: 0.6, department: 'Marketing' },
-        { id: "Mi-99", name: "Raghav", experience: 9, department: 'Cyber Security' },
-        { id: "Mi-100", name: "Roshan", experience: 6, department: 'Web' },
-        //{ id: "Mi-101", name: "Roshani", experience: 1, department: 'Sales' }
-    ]
-    
-    function search(){
+    <script>
+        //data input 
+        const data = [  //this runs first 
+            { id: "Mi-01", name: "Aashish", experience: 1, department: 'Web' },
+            { id: "Mi-02", name: "Aman", experience: 1, department: 'Web' },
+            { id: "Mi-03", name: "Aashutosh", experience: 2, department: 'Mobile' },
+            { id: "Mi-04", name: "Akash", experience: 3, department: 'Sales' },
+            { id: "Mi-05", name: "Akshay", experience: 0.6, department: 'Web' },
+            { id: "Mi-06", name: "Abhishek", experience: 6, department: 'Sales' },
+            { id: "Mi-07", name: "Bharat", experience: 7, department: 'Business Development' },
+            { id: "Mi-08", name: "Bhushan", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-09", name: "Bansal", experience: 9, department: 'Canteen' },
+            { id: "Mi-10", name: "Bhavin", experience: 6, department: 'Web' },
+            { id: "Mi-11", name: "Bhavesh", experience: 2, department: 'Mobile' },
+            { id: "Mi-12", name: "Chetan", experience: 0.1, department: 'Web' },
+            { id: "Mi-13", name: "Chirag", experience: 4, department: 'Mobile' },
+            { id: "Mi-14", name: "Chandan", experience: 3, department: 'Sales' },
+            { id: "Mi-15", name: "Chitesh", experience: 6, department: 'Marketing' },
+            { id: "Mi-16", name: "Dhushyant", experience: 7, department: 'HR' },
+            { id: "Mi-17", name: "Dhiraj", experience: 5, department: 'Business Development' },
+            { id: "Mi-18", name: "Dharshan", experience: 6, department: 'Marketing' },
+            { id: "Mi-19", name: "Dhananand", experience: 9, department: 'Cyber Security' },
+            { id: "Mi-20", name: "Ellis", experience: 2, department: 'Web' },
+            { id: "Mi-21", name: "Elam", experience: 6, department: 'Mobile' },
+            { id: "Mi-22", name: "Eshan", experience: 5, department: 'Web' },
+            { id: "Mi-23", name: "Farhan", experience: 2, department: 'Marketing' },
+            { id: "Mi-24", name: "Faizal", experience: 3, department: 'Mobile' },
+            { id: "Mi-25", name: "Fahad", experience: 6, department: 'Web' },
+            { id: "Mi-26", name: "Firoz", experience: 3, department: 'Sales' },
+            { id: "Mi-27", name: "Ghyan", experience: 7, department: 'Web' },
+            { id: "Mi-28", name: "Ganesh", experience: 6, department: 'Marketing' },
+            { id: "Mi-29", name: "Gajjar", experience: 4, department: 'Reception' },
+            { id: "Mi-30", name: "Hitesh", experience: 8, department: 'Admin' },
+            { id: "Mi-31", name: "Hiren", experience: 5, department: 'Marketing' },
+            { id: "Mi-32", name: "Hemal", experience: 5, department: 'Admin' },
+            { id: "Mi-33", name: "Himanshu", experience: 6, department: 'Reception' },
+            { id: "Mi-34", name: "Hardik", experience: 7, department: 'Marketing' },
+            { id: "Mi-35", name: "Hitanshu", experience: 0.6, department: 'Web' },
+            { id: "Mi-36", name: "Iqbal", experience: 2, department: 'Sales' },
+            { id: "Mi-37", name: "Isha", experience: 1, department: 'Admin' },
+            { id: "Mi-38", name: "Ishika", experience: 4, department: 'Mobile' },
+            { id: "Mi-39", name: "Ishani", experience: 1, department: 'Business Development' },
+            { id: "Mi-40", name: "Ishan", experience: 6, department: 'Marketing' },
+            { id: "Mi-41", name: "Ishwar", experience: 10, department: 'Admin' },
+            { id: "Mi-42", name: "Jatin", experience: 4, department: 'Web' },
+            { id: "Mi-43", name: "Jiyansh", experience: 0.4, department: 'Mobile' },
+            { id: "Mi-44", name: "Jignesh", experience: 3, department: 'Sales' },
+            { id: "Mi-45", name: "Jainil", experience: 0.6, department: 'Gaming' },
+            { id: "Mi-46", name: "Jai", experience: 6, department: 'Web' },
+            { id: "Mi-47", name: "Jay", experience: 7, department: 'Business Development' },
+            { id: "Mi-48", name: "Jagdish", experience: 10, department: 'Marketing' },
+            { id: "Mi-49", name: "Jagat", experience: 4, department: 'Admin' },
+            { id: "Mi-50", name: "Jaishri", experience: 6, department: 'Sales' },
+            { id: "Mi-51", name: "Jalpa", experience: 5, department: 'Mobile' },
+            { id: "Mi-52", name: "Jayraj", experience: 10, department: 'Web' },
+            { id: "Mi-53", name: "Kiran", experience: 20, department: 'Manangement' },
+            { id: "Mi-54", name: "Karan", experience: 5, department: 'Web' },
+            { id: "Mi-55", name: "Kumar", experience: 0.6, department: 'Sales' },
+            { id: "Mi-56", name: "Khanna", experience: 16, department: 'Admin' },
+            { id: "Mi-57", name: "Kapoor", experience: 7, department: 'Business Development' },
+            { id: "Mi-58", name: "Kishore", experience: 16, department: 'Marketing' },
+            { id: "Mi-59", name: "Kapil", experience: 9, department: 'Canteen' },
+            { id: "Mi-60", name: "Kantilal", experience: 16, department: 'Admin' },
+            { id: "Mi-61", name: "Kanjan", experience: 10, department: 'Marketing' },
+            { id: "Mi-62", name: "Lakhan", experience: 11, department: 'Web' },
+            { id: "Mi-63", name: "Lucky", experience: 2, department: 'Mobile' },
+            { id: "Mi-64", name: "Lakshman", experience: 3, department: 'Cyber Security' },
+            { id: "Mi-65", name: "Lakwinder", experience: 7, department: 'Web' },
+            { id: "Mi-66", name: "Lala", experience: 6, department: 'Sales' },
+            { id: "Mi-67", name: "Loha", experience: 7, department: 'Business Development' },
+            { id: "Mi-68", name: "Mayank", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-69", name: "Mani", experience: 9, department: 'Canteen' },
+            { id: "Mi-70", name: "Manish", experience: 6, department: 'Web' },
+            { id: "Mi-71", name: "Mohit", experience: 7, department: 'Sales' },
+            { id: "Mi-72", name: "Mohan", experience: 5, department: 'Web' },
+            { id: "Mi-73", name: "Manek", experience: 5, department: 'Mobile' },
+            { id: "Mi-74", name: "Mohammad", experience: 3, department: 'Sales' },
+            { id: "Mi-75", name: "Mukul", experience: 6, department: 'Business Development' },
+            { id: "Mi-76", name: "Michel", experience: 16, department: 'Sales' },
+            { id: "Mi-77", name: "Messy", experience: 7, department: 'Business Development' },
+            { id: "Mi-78", name: "Neha", experience: 0.6, department: 'Admin' },
+            { id: "Mi-79", name: "Naina", experience: 4, department: 'Sales' },
+            { id: "Mi-80", name: "Naman", experience: 6, department: 'Web' },
+            { id: "Mi-81", name: "Nikhil", experience: 5, department: 'Web' },
+            { id: "Mi-82", name: "Nayan", experience: 7, department: 'Mobile' },
+            { id: "Mi-83", name: "Nikita", experience: 2, department: 'Reception' },
+            { id: "Mi-84", name: "Opinder", experience: 3, department: 'Sales' },
+            { id: "Mi-85", name: "Om", experience: 0.6, department: 'Web' },
+            { id: "Mi-86", name: "Omkar", experience: 6, department: 'Web' },
+            { id: "Mi-87", name: "Onam", experience: 7, department: 'Business Development' },
+            { id: "Mi-88", name: "Patrik", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-89", name: "Paras", experience: 3, department: 'Cyber Security' },
+            { id: "Mi-90", name: "Piyush", experience: 6, department: 'Web' },
+            { id: "Mi-91", name: "Patel", experience: 1, department: 'Business Development' },
+            { id: "Mi-92", name: "Priyanshu", experience: 8, department: 'Web' },
+            { id: "Mi-93", name: "Priya", experience: 4, department: 'Mobile' },
+            { id: "Mi-94", name: "Prakash", experience: 3, department: 'Sales' },
+            { id: "Mi-95", name: "Rohit", experience: 0.6, department: 'Web' },
+            { id: "Mi-96", name: "Rohan", experience: 6, department: 'Sales' },
+            { id: "Mi-97", name: "Raman", experience: 7, department: 'Business Development' },
+            { id: "Mi-98", name: "Rishi", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-99", name: "Raghav", experience: 9, department: 'Cyber Security' },
+            { id: "Mi-100", name: "Roshan", experience: 6, department: 'Web' },
+            //{ id: "Mi-101", name: "Roshani", experience: 1, department: 'Sales' }
+        ]
+
+
+        // function search(){
+        //     var input, filter, table, tr, td, i, txtValue;
+        //     input = document.getElementById("myInput");
+        //     filter = input.value.toUpperCase();
+        //     table = document.querySelector("#data-table tbody");
+        //     tr = table.getElementsByTagName("tr");
+        //     const tableBody =document.querySelector('#data-table tbody');            
+        //     for (i = 0; i < tableBody.length; i++) {
+        //         td = tableBody[i].getElementsByTagName("td")[1] ;
+        //         if (td) {
+        //             txtValue = td.textContent || td.innerText;
+        //             if (txtValue.toUpperCase().indexOf(filter)>-1) {                    
+        //                 tr[i].style.display = "";
+        //             } else {
+        //                 tr[i].style.display = "none";
+        //             }
+        //         }
+        //     } 
+        // }
+
+        //initialize required variables
+        let currentPage = 1;        //runs 2nd                            //if we puts anyother number in currentPage then it will open that page.if input is other then the pages then it will show blank page.
+
+        const rowsPerPage = 10;     //runs 3                            //as per the input it will displays on that number of rows in table  
+        //rowsPerPage = 12;
+        function displayData(page) {                                //inputs inside the function will be undefined because any such variables are not defined/initializes
+        //currentPage = page;
+            const tableBody = document.querySelector('#data-table tbody');
+
+            //querySeletor method will return 1st element from document that matched the specified selector/group of selector
+
+            //const tableBody = document.querySelector('#data-table thead');          //header is unavialable because it is a part of html not js.
+            //const tableBody = document.querySelector('#data-table');                //header is unavailable because it is a part of html not js
+
+            //const tableBody = document.getElementById('data-table');                //header is missing because it is a part ofhtml not js.
+            //const tableBody = document.getElementById('data-table tbody');          //rows are missing
+            //const tableBody = document.getElementById('data-table.thead');          //gives null
+
+            //getElementById() returns an element with a specified value.
+
+            tableBody.innerHTML = '';
+            //when table body is not defined rows will not initialiazed and displayData() will not work.
+
+            // calculate starting and ending indexes for current page to make table accordingly
+            //syntx for defining which will be the first and last row in the table at current page
+            const startRow = (currentPage - 1) * rowsPerPage;                        //if currentPage=1, then startIndex=(1-1)*10=0; Oth element of an array 
+            const endRow = startRow + rowsPerPage;                                //then endIndsex=0+10=10 or else if curentPage=2, then startIndex=10 and endIndex=20;
+            const dataSubset = data.slice(startRow, endRow);
+            //const searchTerm = searchBox.value.trim();
+
+
+        // const searchBox = document.querySelector('#myInput');
+        // searchBox.addEventListener('input', () => {
+        //     searchTerm ;//= searchBox.value.trim();
+        //     displayData(1);
+        // });  const searchTerm = searchBox.value.trim();
+
+
+        //     for (let i = 0; i < dataSubset.length; i++){
+        //         const rowData = datasubset[i];
+        //         if (rowData.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        //             const row = document.createElement('tr');
+        //             row.innerHTML = `<td>${rowData.id}</td><td>${rowData.name}</td><td>${rowData.experience}</td><td>${rowData.department}</td>`;
+        //             tableBody.appendChild(row);
+        //         }
+        //     }
+        //     const totalPages = Math.ceil(data.filter(row => row.name.toLowerCase().includes(searchTerm.toLowerCase())).length/rowsPerPage);
+        //     displayData(page, totalPages);
+            
+        
+
+       
+            
+            
+            //currentPage = 1;    
+            // loop through data and add rows to the table body
+            //syntax
+            for (let i = startRow; i < endRow && i < data.length; i++) {
+                const row = tableBody.insertRow();
+                const cell1 = row.insertCell();
+                const cell2 = row.insertCell();
+                const cell3 = row.insertCell();
+                const cell4 = row.insertCell();
+                cell1.innerHTML = data[i].id;               //i is starting index of the page.
+                cell2.innerHTML = data[i].name;
+                cell3.innerHTML = data[i].experience;
+                cell4.innerHTML = data[i].department;
+            }
+
+
+            // update pagination buttons
+            const paginationButtons = document.querySelectorAll('.pagination-button');      ///document.querySelectorAll() will return list of all elemnets from the matched group of selctors
+            //this loop will build the number of required buttons and saves the result in (.pagination-button)'s id
+            for (let i = 0; i < paginationButtons.length; i++) {
+                const button = paginationButtons[i];
+                //if (button.dataset == currentPage){      //it will not work without page because (page) is input in setPage(). Active functionality will not work then.  
+                if (button.dataset.page == currentPage) {  //this runs 7th.     //button.dataset.page = all required buttons (in this case 1 to 10 buttons)
+                    //dataset is a document-orientated module property to acces and set the data attribute using JS elements
+                    //it is an interface to create, delete, handle and mantain data of an application
+                    //dataset is a set/collection of data
+
+
+                    button.classList.add('active');
+                    //In the classList JavaScript allows us to add, remove, replace, toggle or check whether the specified CSS class is present or not. To add more classes we use the add() method. To remove we use .remove() method.
+                } else {
+
+                    button.classList.remove('active');
+                }
+            }                                               //console.log(paginationButtons); //gives 0
+        }                                                   //console.log(paginationButtons.length) gives 0 as i=0
+
+        
+
+        // function to handle "previous" button click
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayData();
+            }
+        }
+
+        // function to handle "next" button click
+        function nextPage() {
+            if (currentPage < Math.ceil(data.length / rowsPerPage)) {   //Math.ceil will round-off the value.
+                currentPage++;
+                displayData();
+            }
+        }
+
+        // function to handle individual page button click event
+        function setPage(page) {
+            currentPage = page;
+            displayData();
+        }
+
+
+        // initialize table and pagination together
+        displayData();
+
+        // attach event listeners to pagination buttons
+        const previousButton = document.querySelector('#previous-button'); //selects the previous-button id
+
+         previousButton.addEventListener('click', previousPage);    //on botton(<) click the previousPage() function will invoke an do action.   
+        //previousPage() call this 
+
+        //if (currentPage = 1) {
+        // document.querySelector('#previous-button').style.visibility="hidden";
+        // //document.querySelector('#previous-button').style.visibility='hidden';
+        // //previousButton.disabled=true;
+        // previousButton.style.visibility='hidden';
+        //}else{//previousBotton.disabled=false;
+        //document.querySelector('#previous-button').style.visibility='visible';
+        // previousButton.style.visibility='visible';
+        //document.querySelector('#previous-button').style.visibility="visible";
+        //}
+        // previousButton.addEventListener('click', previousPage);
+
+
+
+        const nextButton = document.querySelector('#next-button');  //selects the next button id
+        if (currentPage === data.length/rowsPerPage){
+            nextButton.style.display = 'none';
+        }else{
+            nextButton.style.display = 'block';
+        }
+        previousButton.addEventListener('click', previousPage); 
+        nextButton.addEventListener('click', nextPage);             //on button(>)click ther nextPage() function will invoke action
+        
+        //if(currentPage==numPages()){
+        //document.querySelector('#next-button').style.visibility='hidden';
+        //     nextButton.style.visibility='hidden';
+        // }else{
+        //     nextButton.style.visibility='visible';
+        //     //document.querySelector('#next-button').style.visibility='visible';
+        // }
+        // function numPages() {
+        // 		return Math.ceil(data.length / rowsPerPage);
+        // 	}
+        //     
+
+        //nextButton.addEventListener('click', nextPage);
+        // //nextPage() call this
+        // if(currentPage === 11){
+        //     nextButton.style.display='none';
+        // }
+
+
+        const pageButtonsContainer = document.querySelector('#page-buttons');     //selects the page-buttons class and assign it value of pageButtonsContainer
+        //this loop will calculate how many buttons are required.
+        for (let i = 1; i <= Math.ceil(data.length / rowsPerPage); i++) { //this functions run repeatedly run till data completed and checks if pagenumber matched with data assigned on that page then it will be active button
+            const button = document.createElement('button');            //creates an html element(button)
+            button.innerHTML = i;                                       //add value of (i) to button and display result as html button element. set the page value (page=1 to 10)      
+            button.dataset.page = i;                                   //set the data (num of buttons in page).
+            //console.log(button.innerHTML);(1to10)
+            //console.log(button.dataset.page);(1to10)
+            button.classList.add('pagination-button');                  //add functionality to class (pagination-button) 
+            if (i == currentPage) {                                     //if page number matched with data assigned on that page then it will be active button
+                button.classList.add('active');                         // if condition satisfies then page number[i] will be active
+            }
+            button.addEventListener('click', function () {
+                setPage(parseInt(button.dataset.page));                // on click of any available button setPage() function will invoke and check data of page through searching int values and if satisfies current page will be highlighted active.
+            });
+            pageButtonsContainer.appendChild(button);                  // .appendChild will update loction from parent position to new position. addon same functionality rochild..    
+        }
+
+
+        function search(){
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("myInput");
             filter = input.value.toUpperCase();
             table = document.querySelector("#data-table tbody");
-            tr = table.getElementsByTagName("tr");
-            const tableBody =document.querySelector('#data-table tbody');            
-            for (i = 0; i < tableBody.length; i++) {
-                td = tableBody[i].getElementsByTagName("td")[1] ;
+            tr = table.getElementsByTagName("tr");            
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1] ;
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter)>-1) {                    
@@ -162,156 +373,38 @@
             } 
         }
 
-    //initialize required variables
-    let currentPage = 1;                                    //if we puts anyother number in currentPage then it will open that page.if input is other then the pages then it will show blank page.
-    
-    const rowsPerPage = 10;                                 //as per the input it will displays on that number of rows in table  
-    
-    function displayData() {                                //inputs inside the function will be undefined because any such variables are not defined/initializes
+//         function showPage(page) {
+//   currentPage = page;
+//   const startRow = (currentPage - 1) * rowsPerPage;
+//   const endRow = startRow + rowsPerPage;
+//   const dataSubset = data.slice(startRow, endRow);
 
-        const tableBody = document.querySelector('#data-table tbody');
-        
-        //querySeletor method will return 1st element from document that matched the specified selector/group of selector
-        
-        //const tableBody = document.querySelector('#data-table thead');          //header is unavialable because it is a part of html not js.
-        //const tableBody = document.querySelector('#data-table');                //header is unavailable because it is a part of html not js
-        
-        //const tableBody = document.getElementById('data-table');                //header is missing because it is a part ofhtml not js.
-        //const tableBody = document.getElementById('data-table tbody');          //rows are missing
-        //const tableBody = document.getElementById('data-table.thead');          //gives null
-        
-        //getElementById() returns an element with a specified value.
-        
-        tableBody.innerHTML = '';
-        //when table body is not defined rows will not initialiazed and displayData() will not work.
-        
-        // calculate starting and ending indexes for current page to make table accordingly
-        //syntx for defining which will be the first and last row in the table at current page
-        const startIndex = (currentPage - 1) * rowsPerPage;                        //if currentPage=1, then startIndex=(1-1)*10=0; Oth element of an array 
-        const endIndex = startIndex + rowsPerPage;                                //then endIndsex=0+10=10 or else if curentPage=2, then startIndex=10 and endIndex=20;
-        //console.log(startIndex);
-        //console.log(endIndex);
-        
-        // loop through data and add rows to the table body
-        //syntax
-        for (let i = startIndex; i < endIndex && i < data.length; i++) {
-            const row = tableBody.insertRow();
-            const cell1 = row.insertCell();
-            const cell2 = row.insertCell();
-            const cell3 = row.insertCell();
-            const cell4 = row.insertCell();
-            cell1.innerHTML = data[i].id;               //i is starting index of the page.
-            cell2.innerHTML = data[i].name;
-            cell3.innerHTML = data[i].experience;
-            cell4.innerHTML = data[i].department;
-        }
+//   const tableBody = document.querySelector('#data-table tbody');
+//   tableBody.innerHTML = '';
+//   for (let i = 0; i < dataSubset.length; i++) {
+//     const rowData = dataSubset[i];
+//     if (rowData.name.toLowerCase().includes(searchTerm.toLowerCase())) { // Check if row matches search term
+//       const row = document.createElement('tr');
+//       row.innerHTML = `
+//         <td>${rowData.id}</td>
+//         <td>${rowData.name}</td>
+//         <td>${rowData.experience}</td>
+//         <td>${rowData.department}</td>}
+//       `;
+//       tableBody.appendChild(row);
+//     }
+//   }
 
-        // update pagination buttons
-        const paginationButtons = document.querySelectorAll('.pagination-button');      ///document.querySelectorAll() will return list of all elemnets from the matched group of selctors
-        //this loop will build the number of required buttons and saves the result in (.pagination-button)'s id
-        for (let i = 0; i < paginationButtons.length; i++) {            
-            const button = paginationButtons[i]; 
-            //if (button.dataset == currentPage){      //it will not work without page because (page) is input in setPage(). Active functionality will not work then.  
-            if (button.dataset.page == currentPage) {     //button.dataset.page = all buttons (in this case 1 to 10 buttons)
-            //dataset is a document-orientated module property to acces and set the data attribute using JS elements
-            //it is an interface to create, delete, handle and mantain data of an application
-            //dataset is a set/collection of data
-            
-                button.classList.add('active');
-        //The classList JavaScript allows us to add, remove, replace, toggle or check whether the specified CSS class is present or not. To add more classes we use the add() method. To remove we use .remove() method.
-            } else {
-                button.classList.remove('active');
-            }
-        }                                               //console.log(paginationButtons); //gives 0
-    }                                                   //console.log(paginationButtons.length) gives 0 as i=0
+//   const totalPages = Math.ceil(data.filter(row => row.name.toLowerCase().includes(searchTerm.toLowerCase())).length / rowsPerPage);
+//   showPagination(page, totalPages);
+// }
 
-    // function to handle "previous" button click
-    function previousPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            displayData();
-        }        
-    }
-
-    // function to handle "next" button click
-    function nextPage() {
-        if (currentPage < Math.ceil(data.length / rowsPerPage)) {   //Math.ceil will round-off the value.
-            currentPage++;
-            displayData();
-        }
-    }
-
-    // function to handle individual page button click event
-    function setPage(page) {
-        currentPage = page;
-        displayData();
-    }
-
-
-    // initialize table and pagination together
-    displayData(); 
-
-    // attach event listeners to pagination buttons
-    const previousButton = document.querySelector('#previous-button'); //s4elects the previous-button id
-    previousButton.addEventListener('click', previousPage);    //on botton(<) click the previousPage() function will invoke an do action.   
-    //previousPage() call this 
-
-    //if (currentPage = 1) {
-    // document.querySelector('#previous-button').style.visibility="hidden";
-    // //document.querySelector('#previous-button').style.visibility='hidden';
-    // //previousButton.disabled=true;
-    // previousButton.style.visibility='hidden';
-      //}else{//previousBotton.disabled=false;
-        //document.querySelector('#previous-button').style.visibility='visible';
-    // previousButton.style.visibility='visible';
-    //document.querySelector('#previous-button').style.visibility="visible";
-     //}
-    // previousButton.addEventListener('click', previousPage);
-
-    
-
-    const nextButton = document.querySelector('#next-button');  //selects the next button id
-    nextButton.addEventListener('click', nextPage);             //on button(>)click ther nextPage() function will invoke action
-     //if(currentPage==numPages()){
-        //document.querySelector('#next-button').style.visibility='hidden';
-    //     nextButton.style.visibility='hidden';
-    // }else{
-    //     nextButton.style.visibility='visible';
-    //     //document.querySelector('#next-button').style.visibility='visible';
-    // }
-    // function numPages() {
-	// 		return Math.ceil(data.length / rowsPerPage);
-    //         console.log(data.length / rowsPerPage);
-	// 	}
-    //     console.log(data.length / rowsPerPage);
-
-     //nextButton.addEventListener('click', nextPage);
-    // //nextPage() call this
-    // if(currentPage === 11){
-    //     nextButton.style.display='none';
-    // }
-
-
-    const pageButtonsContainer = document.querySelector('#page-buttons');     //selects the page-buttons class and assign it value of pageButtonsContainer
-    //this loop will calculate how many buttons are required.
-    for (let i = 1; i <= Math.ceil(data.length/rowsPerPage); i++) { //this functions run repeatedly run till data completed and checks if pagenumber matched with data assigned on that page then it will be active button
-        const button = document.createElement('button');            //creates an html element(button)
-        button.innerHTML = i;                                       //add value of (i) to button and display result as html button element. set the page value (page=1 to 10)      
-        button.dataset.page = i;                                    //set the data (num of buttons in page).
-        //console.log(button.innerHTML);(1to10)
-        //console.log(button.dataset.page);(1to10)
-        button.classList.add('pagination-button');                  //add functionality to class (pagination-button) 
-        if (i == currentPage) {                                     //if page number matched with data assigned on that page then it will be active button
-            button.classList.add('active');                         // if condition satisfies then page number[i] will be active
-        }
-        button.addEventListener('click', function () {
-            setPage(parseInt(button.dataset.page));                // on click of any available button setPage() function will invoke and check data of page through searching int values and if satisfies current page will be highlighted active.
-        });
-        pageButtonsContainer.appendChild(button);                  // .appendChild will update loction from parent position to new position. addon same functionality rochild..
-    
-    }
-    
-
-</script>
+//if the row matches the search term before adding it to the table. The search term is stored in a global variable called searchTerm, which can be updated whenever the user enters text in the search box. For example, you could add an event listener to the search box like this:
+// const searchBox = document.querySelector('#search-box');
+// searchBox.addEventListener('input', () => {
+//   searchTerm = searchBox.value.trim();
+//   showPage(1); // Reset to first page when search term changes
+// });
+    </script>
 </body>
 </html>
