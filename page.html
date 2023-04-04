@@ -5,300 +5,239 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagination</title>
+    <title>pagination</title>
     <style>
-        #myTable {
-            border-collapse: collapse;
-            width: 80%;
-            margin-bottom: 20px;
-            margin-left: 5rem;
-        }
-
-        #myTable th,
-        #myTable td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        #myTable th {
-            background-color: #f2f2f2;
-        }
-
-        button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 8px 16px;
+        .table{
+            border: inset;
+            border-width: 2px;
+            border-radius: 5px;
+            border:collapse;
+            border-bottom: 1px solid #ddd;
+            width: 90%;
+            height: 500px;
+            margin-left: 45px;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin-right: 4px;
+            font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+            font-weight: 100;
+            text-decoration: wavy;
+            background-color: rgb(233, 221, 207);
+            outline-style: dotted;
+            outline-style: outset;
+            outline-color: grey;
+        }
+        tr:hover {background-color: coral;}
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        .pagination{
+            width: calc(100% - 2rem);
+            display: flex;
+            align-items: center;
+            position: absolute;
+            bottom: 30px;
+            margin-bottom: 90px;
+            padding: 1rem 0;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        .pagination li {
+            width:auto;
+            font-size: 16px;
+            background-color: rgb(111, 111, 146);
+            border: rgb(21, 21, 114);
             cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #3e8e41;
-        }
-
-        button[disabled] {
-            opacity: 0.5;
-            cursor: default;
-        }
-
-        .active {
-            background-color: #008CBA;
-        }
-
-        #searchBox {
-            padding: 8px;
-            margin-right: 28px;
-            margin-top: 35px;
-            font-size: 14px;
-        }
-
-        #searchBtn {
-            background-color: #008CBA;
-            border: none;
-            color: white;
-            padding: 8px 16px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        #searchBtn:hover {
-            background-color: #3e8e41;
+            border-radius: 2px black;
+            color: #fff;
+            padding: 8px 14px;
+            margin: 3px;
         }
     </style>
 </head>
 
 <body>
-    <table id="myTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>NAME</th>
-                <th>DEPARTMENT</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <div>
-        <button id="previous">Previous</button>
-        <div id="pageNumberContainer"></div>
-        <button id="next">Next</button>
-    </div>
-
-    <div>
-        <input type="text" id="searchBox">
-        <button id="searchBtn">Search</button>
-    </div>
-
     <script>
-        const myArray = [  //this runs first 
-            { id: "Mi-01", name: "Aashish", department: 'Web' },
-            { id: "Mi-02", name: "Aman", department: 'Web' },
-            { id: "Mi-03", name: "Aashutosh", department: 'Mobile' },
-            { id: "Mi-04", name: "Akash", department: 'Sales' },
-            { id: "Mi-05", name: "Akshay", department: 'Web' },
-            { id: "Mi-06", name: "Abhishek", department: 'Sales' },
-            { id: "Mi-07", name: "Bharat", department: 'Business Development' },
-            { id: "Mi-08", name: "Bhushan", department: 'Marketing' },
-            { id: "Mi-09", name: "Bansal", department: 'Canteen' },
-            { id: "Mi-10", name: "Bhavin", department: 'Web' },
-            { id: "Mi-11", name: "Bhavesh", department: 'Mobile' },
-            { id: "Mi-12", name: "Chetan", department: 'Web' },
-            { id: "Mi-13", name: "Chirag", department: 'Mobile' },
-            { id: "Mi-14", name: "Chandan", department: 'Sales' },
-            { id: "Mi-15", name: "Chitesh", department: 'Marketing' },
-            { id: "Mi-16", name: "Dhushyant", department: 'HR' },
-            { id: "Mi-17", name: "Dhiraj", department: 'Business Development' },
-            { id: "Mi-18", name: "Dharshan", department: 'Marketing' },
-            { id: "Mi-19", name: "Dhananand", department: 'Cyber Security' },
-            { id: "Mi-20", name: "Ellis", department: 'Web' },
-            { id: "Mi-21", name: "Elam", department: 'Mobile' },
-            { id: "Mi-22", name: "Eshan", department: 'Web' },
-            { id: "Mi-23", name: "Farhan", department: 'Marketing' },
-            { id: "Mi-24", name: "Faizal", department: 'Mobile' },
-            { id: "Mi-25", name: "Fahad", department: 'Web' },
-            { id: "Mi-26", name: "Firoz", department: 'Sales' },
-            { id: "Mi-27", name: "Ghyan", department: 'Web' },
-            { id: "Mi-28", name: "Ganesh", department: 'Marketing' },
-            { id: "Mi-29", name: "Gajjar", department: 'Reception' },
-            { id: "Mi-30", name: "Hitesh", department: 'Admin' },
-            { id: "Mi-31", name: "Hiren", department: 'Marketing' },
-            { id: "Mi-32", name: "Hemal", department: 'Admin' },
-            { id: "Mi-33", name: "Himanshu", department: 'Reception' },
-            { id: "Mi-34", name: "Hardik", department: 'Marketing' },
-            { id: "Mi-35", name: "Hitanshu", department: 'Web' },
-            { id: "Mi-36", name: "Iqbal", department: 'Sales' },
-            { id: "Mi-37", name: "Isha", department: 'Admin' },
-            { id: "Mi-38", name: "Ishika", department: 'Mobile' },
-            { id: "Mi-39", name: "Ishani", department: 'Business Development' },
-            { id: "Mi-40", name: "Ishan", department: 'Marketing' },
-            { id: "Mi-41", name: "Ishwar", department: 'Admin' },
-            { id: "Mi-42", name: "Jatin", department: 'Web' },
-            { id: "Mi-43", name: "Jiyansh", department: 'Mobile' },
-            { id: "Mi-44", name: "Jignesh", department: 'Sales' },
-            { id: "Mi-45", name: "Jainil", department: 'Gaming' },
-            { id: "Mi-46", name: "Jai", department: 'Web' },
-            { id: "Mi-47", name: "Jay", department: 'Business Development' },
-            { id: "Mi-48", name: "Jagdish", department: 'Marketing' },
-            { id: "Mi-49", name: "Jagat", department: 'Admin' },
-            { id: "Mi-50", name: "Jaishri", department: 'Sales' },
-            { id: "Mi-51", name: "Jalpa", department: 'Mobile' },
-            { id: "Mi-52", name: "Jayraj", department: 'Web' },
-            { id: "Mi-53", name: "Kiran", department: 'Manangement' },
-            { id: "Mi-54", name: "Karan", department: 'Web' },
-            { id: "Mi-55", name: "Kumar", department: 'Sales' },
-            { id: "Mi-56", name: "Khanna", department: 'Admin' },
-            { id: "Mi-57", name: "Kapoor", department: 'Business Development' },
-            { id: "Mi-58", name: "Kishore", department: 'Marketing' },
-            { id: "Mi-59", name: "Kapil", department: 'Canteen' },
-            { id: "Mi-60", name: "Kantilal", department: 'Admin' },
-            { id: "Mi-61", name: "Kanjan", department: 'Marketing' },
-            { id: "Mi-62", name: "Lakhan", department: 'Web' },
-            { id: "Mi-63", name: "Lucky", department: 'Mobile' },
-            { id: "Mi-64", name: "Lakshman", department: 'Cyber Security' },
-            { id: "Mi-65", name: "Lakwinder", department: 'Web' },
-            { id: "Mi-66", name: "Lala", department: 'Sales' },
-            { id: "Mi-67", name: "Loha", department: 'Business Development' },
-            { id: "Mi-68", name: "Mayank", department: 'Marketing' },
-            { id: "Mi-69", name: "Mani", department: 'Canteen' },
-            { id: "Mi-70", name: "Manish", department: 'Web' },
-            { id: "Mi-71", name: "Mohit", department: 'Sales' },
-            { id: "Mi-72", name: "Mohan", department: 'Web' },
-            { id: "Mi-73", name: "Manek", department: 'Mobile' },
-            { id: "Mi-74", name: "Mohammad", department: 'Sales' },
-            { id: "Mi-75", name: "Mukul", department: 'Business Development' },
-            { id: "Mi-76", name: "Michel", department: 'Sales' },
-            { id: "Mi-77", name: "Messy", department: 'Business Development' },
-            { id: "Mi-78", name: "Neha", department: 'Admin' },
-            { id: "Mi-79", name: "Naina", department: 'Sales' },
-            { id: "Mi-80", name: "Naman", department: 'Web' },
-            { id: "Mi-81", name: "Nikhil", department: 'Web' },
-            { id: "Mi-82", name: "Nayan", department: 'Mobile' },
-            { id: "Mi-83", name: "Nikita", department: 'Reception' },
-            { id: "Mi-84", name: "Opinder", department: 'Sales' },
-            { id: "Mi-85", name: "Om", department: 'Web' },
-            { id: "Mi-86", name: "Omkar", department: 'Web' },
-            { id: "Mi-87", name: "Onam", department: 'Business Development' },
-            { id: "Mi-88", name: "Patrik", department: 'Marketing' },
-            { id: "Mi-89", name: "Paras", department: 'Cyber Security' },
-            { id: "Mi-90", name: "Piyush", department: 'Web' },
-            { id: "Mi-91", name: "Patel", department: 'Business Development' },
-            { id: "Mi-92", name: "Priyanshu", department: 'Web' },
-            { id: "Mi-93", name: "Priya", department: 'Mobile' },
-            { id: "Mi-94", name: "Prakash", department: 'Sales' },
-            { id: "Mi-95", name: "Rohit", department: 'Web' },
-            { id: "Mi-96", name: "Rohan", department: 'Sales' },
-            { id: "Mi-97", name: "Raman", department: 'Business Development' },
-            { id: "Mi-98", name: "Rishi", department: 'Marketing' },
-            { id: "Mi-99", name: "Raghav", department: 'Cyber Security' },
-            { id: "Mi-100", name: "Roshan", department: 'Web' }
+        debugger
+        const userInfo = [
+            { id: "Mi-01", name: "Aashish", experience: 1, department: 'Web' },
+            { id: "Mi-02", name: "Aman", experience: 1, department: 'Web' },
+            { id: "Mi-03", name: "Aashutosh", experience: 2, department: 'Mobile' },
+            { id: "Mi-04", name: "Akash", experience: 3, department: 'Sales' },
+            { id: "Mi-05", name: "Akshay", experience: 0.6, department: 'Web' },
+            { id: "Mi-06", name: "Abhishek", experience: 6, department: 'Sales' },
+            { id: "Mi-07", name: "Bharat", experience: 7, department: 'Business Development' },
+            { id: "Mi-08", name: "Bhushan", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-09", name: "Bansal", experience: 9, department: 'Canteen' },
+            { id: "Mi-10", name: "Bhavin", experience: 6, department: 'Web' },
+            { id: "Mi-11", name: "Bhavesh", experience: 2, department: 'Mobile' },
+            { id: "Mi-12", name: "Chetan", experience: 0.1, department: 'Web' },
+            { id: "Mi-13", name: "Chirag", experience: 4, department: 'Mobile' },
+            { id: "Mi-14", name: "Chandan", experience: 3, department: 'Sales' },
+            { id: "Mi-15", name: "Chitesh", experience: 6, department: 'Marketing' },
+            { id: "Mi-16", name: "Dhushyant", experience: 7, department: 'HR' },
+            { id: "Mi-17", name: "Dhiraj", experience: 5, department: 'Business Development' },
+            { id: "Mi-18", name: "Dharshan", experience: 6, department: 'Marketing' },
+            { id: "Mi-19", name: "Dhananand", experience: 9, department: 'Cyber Security' },
+            { id: "Mi-20", name: "Ellis", experience: 2, department: 'Web' },
+            { id: "Mi-21", name: "Elam", experience: 6, department: 'Mobile' },
+            { id: "Mi-22", name: "Eshan", experience: 5, department: 'Web' },
+            { id: "Mi-23", name: "Farhan", experience: 2, department: 'Marketing' },
+            { id: "Mi-24", name: "Faizal", experience: 3, department: 'Mobile' },
+            { id: "Mi-25", name: "Fahad", experience: 6, department: 'Web' },
+            { id: "Mi-26", name: "Firoz", experience: 3, department: 'Sales' },
+            { id: "Mi-27", name: "Ghyan", experience: 7, department: 'Web' },
+            { id: "Mi-28", name: "Ganesh", experience: 6, department: 'Marketing' },
+            { id: "Mi-29", name: "Gajjar", experience: 4, department: 'Reception' },
+            { id: "Mi-30", name: "Hitesh", experience: 8, department: 'Admin' },
+            { id: "Mi-31", name: "Hiren", experience: 5, department: 'Marketing' },
+            { id: "Mi-32", name: "Hemal", experience: 5, department: 'Admin' },
+            { id: "Mi-33", name: "Himanshu", experience: 6, department: 'Reception' },
+            { id: "Mi-34", name: "Hardik", experience: 7, department: 'Marketing' },
+            { id: "Mi-35", name: "Hitanshu", experience: 0.6, department: 'Web' },
+            { id: "Mi-36", name: "Iqbal", experience: 2, department: 'Sales' },
+            { id: "Mi-37", name: "Isha", experience: 1, department: 'Admin' },
+            { id: "Mi-38", name: "Ishika", experience: 4, department: 'Mobile' },
+            { id: "Mi-39", name: "Ishani", experience: 1, department: 'Business Development' },
+            { id: "Mi-40", name: "Ishan", experience: 6, department: 'Marketing' },
+            { id: "Mi-41", name: "Ishwar", experience: 10, department: 'Admin' },
+            { id: "Mi-42", name: "Jatin", experience: 4, department: 'Web' },
+            { id: "Mi-43", name: "Jiyansh", experience: 0.4, department: 'Mobile' },
+            { id: "Mi-44", name: "Jignesh", experience: 3, department: 'Sales' },
+            { id: "Mi-45", name: "Jainil", experience: 0.6, department: 'Gaming' },
+            { id: "Mi-46", name: "Jai", experience: 6, department: 'Web' },
+            { id: "Mi-47", name: "Jay", experience: 7, department: 'Business Development' },
+            { id: "Mi-48", name: "Jagdish", experience: 10, department: 'Marketing' },
+            { id: "Mi-49", name: "Jagat", experience: 4, department: 'Admin' },
+            { id: "Mi-50", name: "Jaishri", experience: 6, department: 'Sales' },
+            { id: "Mi-51", name: "Jalpa", experience: 5, department: 'Mobile' },
+            { id: "Mi-52", name: "Jayraj", experience: 10, department: 'Web' },
+            { id: "Mi-53", name: "Kiran", experience: 20, department: 'Manangement' },
+            { id: "Mi-54", name: "Karan", experience: 5, department: 'Web' },
+            { id: "Mi-55", name: "Kumar", experience: 0.6, department: 'Sales' },
+            { id: "Mi-56", name: "Khanna", experience: 16, department: 'Admin' },
+            { id: "Mi-57", name: "Kapoor", experience: 7, department: 'Business Development' },
+            { id: "Mi-58", name: "Kishore", experience: 16, department: 'Marketing' },
+            { id: "Mi-59", name: "Kapil", experience: 9, department: 'Canteen' },
+            { id: "Mi-60", name: "Kantilal", experience: 16, department: 'Admin' },
+            { id: "Mi-61", name: "Kanjan", experience: 10, department: 'Marketing' },
+            { id: "Mi-62", name: "Lakhan", experience: 11, department: 'Web' },
+            { id: "Mi-63", name: "Lucky", experience: 2, department: 'Mobile' },
+            { id: "Mi-64", name: "Lakshman", experience: 3, department: 'Cyber Security' },
+            { id: "Mi-65", name: "Lakwinder", experience: 7, department: 'Web' },
+            { id: "Mi-66", name: "Lala", experience: 6, department: 'Sales' },
+            { id: "Mi-67", name: "Loha", experience: 7, department: 'Business Development' },
+            { id: "Mi-68", name: "Mayank", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-69", name: "Mani", experience: 9, department: 'Canteen' },
+            { id: "Mi-70", name: "Manish", experience: 6, department: 'Web' },
+            { id: "Mi-71", name: "Mohit", experience: 7, department: 'Sales' },
+            { id: "Mi-72", name: "Mohan", experience: 5, department: 'Web' },
+            { id: "Mi-73", name: "Manek", experience: 5, department: 'Mobile' },
+            { id: "Mi-74", name: "Mohammad", experience: 3, department: 'Sales' },
+            { id: "Mi-75", name: "Mukul", experience: 6, department: 'Business Development' },
+            { id: "Mi-76", name: "Michel", experience: 16, department: 'Sales' },
+            { id: "Mi-77", name: "Messy", experience: 7, department: 'Business Development' },
+            { id: "Mi-78", name: "Neha", experience: 0.6, department: 'Admin' },
+            { id: "Mi-79", name: "Naina", experience: 4, department: 'Sales' },
+            { id: "Mi-80", name: "Naman", experience: 6, department: 'Web' },
+            { id: "Mi-81", name: "Nikhil", experience: 5, department: 'Web' },
+            { id: "Mi-82", name: "Nayan", experience: 7, department: 'Mobile' },
+            { id: "Mi-83", name: "Nikita", experience: 2, department: 'Reception' },
+            { id: "Mi-84", name: "Opinder", experience: 3, department: 'Sales' },
+            { id: "Mi-85", name: "Om", experience: 0.6, department: 'Web' },
+            { id: "Mi-86", name: "Omkar", experience: 6, department: 'Web' },
+            { id: "Mi-87", name: "Onam", experience: 7, department: 'Business Development' },
+            { id: "Mi-88", name: "Patrik", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-89", name: "Paras", experience: 3, department: 'Cyber Security' },
+            { id: "Mi-90", name: "Piyush", experience: 6, department: 'Web' },
+            { id: "Mi-91", name: "Patel", experience: 1, department: 'Business Development' },
+            { id: "Mi-92", name: "Priyanshu", experience: 8, department: 'Web' },
+            { id: "Mi-93", name: "Priya", experience: 4, department: 'Mobile' },
+            { id: "Mi-94", name: "Prakash", experience: 3, department: 'Sales' },
+            { id: "Mi-95", name: "Rohit", experience: 0.6, department: 'Web' },
+            { id: "Mi-96", name: "Rohan", experience: 6, department: 'Sales' },
+            { id: "Mi-97", name: "Raman", experience: 7, department: 'Business Development' },
+            { id: "Mi-98", name: "Rishi", experience: 0.6, department: 'Marketing' },
+            { id: "Mi-99", name: "Raghav", experience: 9, department: 'Cyber Security' },
+            { id: "Mi-100", name: "Roshan", experience: 6, department: 'Web' }
         ]
 
-        // Define the table, pagination, and page number variables
-        const table = document.getElementById('myTable').getElementsByTagName('tbody')[0];   //only ('tbody') will not work as getElementsByTagName returns a list of elements.If you want to target the first, use: document.getElementsByTagName("tbody")[0];
-        const previousBtn = document.getElementById('previous');
-        const nextBtn = document.getElementById('next');
-        const searchBox = document.getElementById('searchBox');
-        const searchBtn = document.getElementById('searchBtn');
-        const pageNumberContainer = document.getElementById('pageNumberContainer');
-
-        let currentPage = 1;
-        const rowsPerPage = 10;
-        let totalPages = Math.ceil(myArray.length / rowsPerPage);  // 101/10 = 11 as Math.ceil gives next round-off number.
-
-        // Define the function to display the table
-        function displayTable(rows) {
-            table.innerHTML = '';
-            for (let i = 0; i < rows.length; i++) {
-                const row = table.insertRow(i);
-                const id = row.insertCell(0);
-                const name = row.insertCell(1);
-                const department = row.insertCell(2);
-                id.innerHTML = rows[i].id;
-                name.innerHTML = rows[i].name;
-                department.innerHTML = rows[i].department;
-            }
+    function render(page){
+        if(page!=1){
+            displayUsers(page,--page);
+        } else{
+            displayUsers(1,1); //,1
         }
+    }
 
-        // Define the function to handle the previous button click
-        function previous() {
-            if (currentPage > 1) {
-                currentPage--;
-                displayTable(myArray.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
-                updatePagination();
-            }
-        }
+    function displayUsers(current_page,previous_page) {
+        let start=10*(current_page-1);
+        let end=start+10;
+        let page_users=userInfo.slice(start,end);
 
-        // Define the function to handle the next button click
-        function next() {
-            if (currentPage < totalPages) {
-                currentPage++;
-                displayTable(myArray.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
-                updatePagination();
-            }
-        }
+        document.body.innerHTML = `<table class="table"><thead>
+  <tr>
+  <th scope="col">Id</th>
+  <th scope="col">Name</th>
+  <th scope="col">Experience</th>
+  <th scope="col">Department</th>
+  </tr>
+  </thead>
+  <tbody class='body'></tbody></table>
+  <div>
+ <nav aria-label="Page navigation example"> 
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link"  onclick="render(${previous_page})">Previous</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(1)">1</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(2)">2</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(3)">3</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(4)">4</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(5)">5</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(6)">6</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(7)">7</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(8)">8</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(9)">9</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(10)">10</a></li>
+    </ul>
+</nav>
+</div>`
 
-        // Define the function to handle the page number click
-        function pageNumberClick(i) {
-            const pageNumber = parseInt(i.target.dataset.pageNumber);
-            if (pageNumber !== currentPage) {
-                currentPage = pageNumber;
-                displayTable(myArray.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage));
-                updatePagination();
-            }
-        }
+const tableBody = document.querySelector('.body')
 
-        // Define the function to handle the search button click
-        function search() {
-            const searchTerm = searchBox.value.toLowerCase();
-            const filteredRows = myArray.filter(row =>
-                Object.values(row).some(val => val.toLowerCase().includes(searchTerm))
-            );
-            currentPage = 1;
-            displayTable(filteredRows.slice(0, rowsPerPage));
-            totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            updatePagination();
-        }
+page_users.forEach(userInfo => {
+    tableBody.innerHTML += `<tr><td>${userInfo.id}</td><td>${userInfo.name}</td><td>${userInfo.experience}</td><td>${userInfo.department}</td></tr>`
+});
+}
 
-        // Define the function to update the pagination buttons and page numbers
-        function updatePagination() {
-            previousBtn.disabled = currentPage === 1;
-            nextBtn.disabled = currentPage === totalPages;
-            pageNumberContainer.innerHTML = '';
-            for (let i = 1; i <= totalPages; i++) {
-                const pageNumber = document.createElement('button');
-                pageNumber.innerText = i;                              //.innerText is HTML method which is used rto write dynamic text in html document
-                pageNumber.dataset.pageNumber = i;
-                //dataset is a document-orientated module property to acces and set the data attribute using JS elements
-                //it is an interface to create, delete, handle and mantain data of an application
-                //dataset is a set/collection of data
+let page_users=userInfo.slice(0,10);
 
-                pageNumber.addEventListener('click', pageNumberClick);
-                if (i === currentPage) {
-                    pageNumber.classList.add('active');
-                }
-                pageNumberContainer.appendChild(pageNumber);
-            }
-        }
+document.body.innerHTML = `<table class="table"><thead>
+<tr>
+<th scope="col">Id</th>
+<th scope="col">Name</th>
+<th scope="col">Experience</th>
+<th scope="col">Department</th>
+</tr>
+</thead>
+<tbody class='body'></tbody></table>
+<div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link"  onclick="render(1)">1</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(2)">2</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(3)">3</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(4)">4</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(5)">5</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(6)">6</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(7)">7</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(8)">8</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(9)">9</a></li>
+        <li class="page-item"><a class="page-link"  onclick="render(10)">10</a></li>
+    </ul>
+</nav>
+</div>`
 
-        // Add event listeners to the pagination buttons and search button
-        previousBtn.addEventListener('click', previous);
-        nextBtn.addEventListener('click', next);
-        searchBtn.addEventListener('click', search);
+const tableBody = document.querySelector('.body')
 
-        // Display the initial table and pagination
-        displayTable(myArray.slice(0, rowsPerPage));
-        updatePagination();
-
+page_users.forEach(userInfo => {
+    tableBody.innerHTML+=`<tr><td>${userInfo.id}</td><td>${userInfo.name}</td><td>${userInfo.experience}</td><td>${userInfo.department}</td></tr>`
+})
     </script>
 </body>
 
