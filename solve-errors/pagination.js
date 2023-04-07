@@ -100,86 +100,113 @@ const array = [  //this runs first
     { id: "99", name: "Raghav", department: 'Cyber Security' },
     { id: "100", name: "Roshan", department: 'Web' }
 ]
+//debugger
 //insertion of new array elements
-array[100] = {id: '101', name: "Sunil", department: 'Admin'};
-array.push({id:'102', name:"Suraj", department:"Web"});
-array[array.length] = {id: '103', name: 'Sailesh', department: 'Networking'};
-length = array.push({id: '104', name: 'Shakshi', department: 'Cyber Security'});
+array[100] = { id: '101', name: "Sunil", department: 'Admin' };
+array.push({ id: '102', name: "Suraj", department: "Web" });
+array[array.length] = { id: '103', name: 'Sailesh', department: 'Networking' };
+length = array.push({ id: '104', name: 'Shakshi', department: 'Cyber Security' });
 
 //deletion of curent array element
 array.pop();
 array.shift();
 
+//delete value of array that stored in between.
+index = array.findIndex(x => x.id==='100')
+console.log(index);
+array.splice(98,1);
 
+//initializing variables
 const tableBody = document.querySelector("#myTable tbody");
 const pagination = document.querySelector("#pagination");
-const search = document.querySelector('#search')
+const search = document.querySelector('#search');
 
-let currentPage = 1; 
+let currentPage = 1;
 let itemsPerPage = 10;
-    
+
+//convert js data into table format
 function createTable(array) {
-    let totalPages = Math.ceil(array.length / itemsPerPage);    
-    tableBody.innerHTML = "";
-    const start = (currentPage - 1) * itemsPerPage, end = start + itemsPerPage;
-    const paginatedArray = array.slice(start, end)       
-               
+    let totalPages = Math.ceil(array.length / itemsPerPage);
+    tableBody.innerHTML = "";                                                //The innerHTML property of elements reads and updates the HTML or  "" text that is inside the element.
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedArray = array.slice(start, end)
+
     for (let i = 0; i < paginatedArray.length; i++) {
         let row = `<tr>
                 <td>${paginatedArray[i].id}</td>
                 <td>${paginatedArray[i].name}</td>
                 <td>${paginatedArray[i].department}</td>
                 </tr>`
-        tableBody.innerHTML += row;
+        tableBody.innerHTML += row;        
     }
     pagination.innerHTML = " ";
 
+    //function for previous button functionality
     const prev = document.createElement("button")
     prev.innerHTML = "Prev";
     prev.addEventListener("click", () => {
         currentPage--;
-        if (currentPage < 1) currentPage = 1; createTable(array)
+        if (currentPage < 1) {
+            currentPage = 1;  //currentpage will not get changed if at page No. 1
+        }
+        createTable(array)
     })
-    if (array != "") pagination.appendChild(prev)
-  
+    if (array != "") pagination.appendChild(prev)  //as data is not available at page <1, then hide prev button.  
 
+    //for adding individual buttons in the pagination and making them active too.
     for (let i = 1; i <= totalPages; i++) {
         const pageNo = document.createElement('button')
         pageNo.innerHTML = i
-        if (i == currentPage) pageNo.classList.add('active')
+        if (i == currentPage) {
+            pageNo.classList.add('active')
+        }
         pageNo.addEventListener("click", () => {
             currentPage = i;
-            createTable(array)                         
+            createTable(array)
         })
-        pagination.appendChild(pageNo)
+        if (array != "") pagination.appendChild(pageNo);
     }
-            
+
+    //function for next button functionality.
     const next = document.createElement('button')
     next.innerHTML = "Next"
     next.addEventListener("click", () => {
         currentPage++
-        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
         createTable(array)
     })
-
-    if (array != "") pagination.appendChild(next);
+    if (array != "") pagination.appendChild(next); //if searched data is not available, then hide next button.
 }
 createTable(array)
 
+//function for searching the data wrote in search box
+function display(array) {
+    const searchValue = search.value.toLowerCase()
+    let sameData = searchTable(searchValue, array)
+    createTable(sameData)
+}
 
 function searchTable(searchValue, sameData) {
-    let filteredsameData = []
+    let filteredsameData = [];                             //this creates a new array with only filtered data stored within.
     for (let i = 0; i < sameData.length; i++) {
-        var searchValue = searchValue.toLowerCase()
-        let namearray = sameData[i].name.toLowerCase()
-        if (namearray.includes(searchValue)) filteredsameData.push(sameData[i])  
+        var searchValue = searchValue.toLowerCase()        // word or letter entered in search box is all convertedd in lowercase. 
+
+        let idarray = sameData[i].id.toLowerCase()                    //if user inputs 1st letter or all capital letter then searchvalue will converted into lowercase for searching.
+        let namearray = sameData[i].name.toLowerCase()                //same
+        let departmentarray = sameData[i].department.toLowerCase()    //same
+        
+        if (idarray.includes(searchValue)) {                        //if data exist .includes method return true.
+            filteredsameData.push(sameData[i]);
+        }
+        else if (namearray.includes(searchValue)) {
+            filteredsameData.push(sameData[i]);
+        }
+        else if (departmentarray.includes(searchValue)) {
+            filteredsameData.push(sameData[i]);
+        }
     }
     return filteredsameData;
 }
-
-function display(array) {
-    const searchValue = search.value
-    let sameData = searchTable(searchValue, array)                 
-    createTable(sameData)
-}
-    
