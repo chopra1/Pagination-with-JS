@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="pagination.css">
+    <title>Data</title>
+</head>
+
+<body>
+    <input type="search" id="search" onkeyup="display(array)" placeholder="Search">
+    <p style="color: black; margin-left : 130px"><strong>Click on table header's to sort the data in ascending or descending order.</strong></p>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Name</th>
+                <th onclick="sortTable(2)">Department</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <div id="pagination"></div>
+    <script src="pagination.js"></script>
+    </div>
+</body>
+</html>
