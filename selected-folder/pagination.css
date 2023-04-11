@@ -1,0 +1,61 @@
+* {
+    background-color: #ccd2db;
+    color: black;
+    font-family: 'Oswald', sans-serif;
+}
+p {
+    color: rgb(218, 195, 137)
+}
+#myTable {
+    border-collapse: collapse;
+    width: 80%;
+    margin-bottom: 20px;
+    margin-left: 8rem;
+}
+#myTable th, #myTable td {
+    border: 1px solid #b39797;
+    padding: 8px;
+    text-align: left;
+}
+#myTable th {
+    background-color: #f2f2f2;
+    color: #8c6b48;
+}
+#pagination {
+    width: calc(100% - 2rem);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 30px;
+    margin-bottom: 90px;
+    padding: 1rem 0;
+    justify-content: center;
+}
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: black;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #3e8e41;
+}
+.active {
+    background-color: #008CBA;
+}
+#search {
+    padding: 8px;
+    margin-right: 28px;
+    margin-left: 130px;
+    margin-top: 35px;
+    font-size: 14px;
+    margin-bottom: 35px;
+    text-align: left;
+    background-color: #ddd;
+}
