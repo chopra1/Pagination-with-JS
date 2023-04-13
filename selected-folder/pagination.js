@@ -121,13 +121,10 @@ array.splice(98, 1);
 var tableBody = document.querySelector('#myTable tbody');  //querySelector(): Returns the first element that matches a specified CSS selector(s) in the document.
 const pagination = document.querySelector("#pagination");
 const search = document.querySelector('#search');
-const select = document.getElementById('mySelect');  //getElementById() Returns the element that has the ID attribute with the specified value.
- //const rows = tableBody.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
 let currentPage = 1;
 const rowsPerpage = 10;
-//const rowsPerpage = Number(select.value); 
-
+ 
 //convert js data into table format
 function createTable(array) {
   let totalPages = Math.ceil(array.length / rowsPerpage);   //11
@@ -135,7 +132,7 @@ function createTable(array) {
   const end = start + rowsPerpage;                          //last displaying index number
   const paginatedArray = array.slice(start, end)            //new array will be created acording th start and end
   
-  //console.log(array.length); //101
+//console.log(array.length); //101
 
   tableBody.innerHTML = " ";      //The innerHTML property of elements reads and updates the HTML or  "" text that is inside the element.
   for (let i = 0; i < paginatedArray.length; i++) {
@@ -213,9 +210,9 @@ function display(array) {
 function searchTable(searchValue, sameData) {
   let filteredsameData = [];                             //this creates a new array with only filtered data stored within.
   for (let i = 0; i < sameData.length; i++) {
-    var searchValue = searchValue.toLowerCase()        // word or letter entered in search box is all convertedd in lowercase. 
+    var searchValue = searchValue.toLowerCase()        // word or letter entered in search box is all converted in lowercase. 
 
-    let idarray = sameData[i].id.toLowerCase()                    //if user inputs 1st letter or all capital letter then searchvalue will converted into lowercase for searching.
+    let idarray = sameData[i].id.toLowerCase();                    //if user inputs 1st letter or all capital letter then searchvalue will convert it into lowercase for searching.
     let namearray = sameData[i].name.toLowerCase()                //same
     let departmentarray = sameData[i].department.toLowerCase()    //same
 
@@ -233,7 +230,7 @@ function searchTable(searchValue, sameData) {
 }
 
 //sorting of data
-function sortTable(n) {  //'n' is used to specify all columns    
+function sortTable(column) {  //'column' is used to specify all columns    
   //assign required variables
   var rows, switching, i, x, y, shouldSwitch, direction, switchcount = 0;
   switching = true;
@@ -243,16 +240,16 @@ function sortTable(n) {  //'n' is used to specify all columns
   while (switching) {
     //A "While" Loop is used to repeat a specific block of code an unknown number of times, until a condition is met. 
     //start by saying: no switching is done as by it should not done automatically
-    switching = false;
+    //switching = false;
     rows = tableBody.rows;
     //Loop through all table rows (except the first, which contains table headers):
     for (i = 0; i < (rows.length-1); i++) {
       //length -1 will count till the last element.
       //start by saying there should be no switching:
-      shouldSwitch = false;
+      //shouldSwitch = false;
       //Get the two elements you want to compare, one from current row and one from the next
-      x = rows[i].getElementsByTagName("td")[n];
-      y = rows[i + 1].getElementsByTagName("td")[n];
+      x = rows[i].getElementsByTagName("td")[column];
+      y = rows[i + 1].getElementsByTagName("td")[column];
       //check if the two rows should switch place, based on the direction of ascending or descending:
       if (direction == "ascending") {
         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
@@ -282,4 +279,4 @@ function sortTable(n) {  //'n' is used to specify all columns
       }
     }
   }
-} 
+}
