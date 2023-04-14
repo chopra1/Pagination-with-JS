@@ -1,7 +1,7 @@
 * {
     max-width:100%;
     height:auto;
-    background-color: #ccd2db;
+    /* background-color: #ccd2db; */
     color: black;
     font-family: 'Oswald', sans-serif;
     /* overflow-x: scroll; */
@@ -9,22 +9,34 @@
 h1 {
     font-size: 30px;
     padding: 10px;
-    color: #8c6b48;
-    background-color: white;
+    color: #f7d9b9;
+    background-color: rgb(206, 142, 142);
     text-align: center;
     justify-content: center;
+    width: 100%;
 }
-p {
+#heading p {
+    background-color: rgb(209, 184, 184);
     color: rgb(22, 20, 13);
     text-align: center;
     font-size: 16;
     font-weight: bold;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
     justify-content: center;
+    width: 100%;
+}
+#info {
+    text-align: center;
+    font-size: 16;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    justify-content: center;
+    color:gray;
 }
 #myTable {
     border-collapse: collapse;
     width: 80%;
+    height: auto;
     margin-bottom: 20px;
     margin-left: 8rem;
     margin-right: 8rem;
@@ -40,6 +52,9 @@ p {
     background-color: #f2f2f2;
     color: #8c6b48;
     cursor: pointer;
+}
+#myTable td {
+    background-color: #ddd0a3;
 }
 #myTable th:hover { background-color: #4CAF50;}
 #myTable td:hover {
@@ -57,7 +72,6 @@ p {
     margin-bottom: 90px;
     padding: 1rem 0;
     justify-content: center;
-    /* overflow-x: scroll;*/
 }
 button {
     background-color: #4CAF50;
@@ -70,6 +84,7 @@ button {
     font-size: 14px;
     margin-right: 4px;
     cursor: pointer;
+    border-radius: 4px;
 }
 button:hover {
     background-color: #3e8e41;
