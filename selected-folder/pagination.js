@@ -121,40 +121,42 @@ array.splice(98, 1);
 var tableBody = document.querySelector('#myTable tbody');  //querySelector(): Returns the first element that matches a specified CSS selector(s) in the document.
 const pagination = document.querySelector("#pagination");
 const search = document.querySelector('#mysearch');
-
-// const rowsPerPage = Number(select.value);
-// console.log(rowsPerPage); //10
-// totalPages = Math.ceil(rows/rowsPerPage);  
-// console.log(totalPages);  //11
+const select = document.getElementById('mySelect');
 
 let currentPage = 1;
-const rowsPerPage = 10;
+let rowsPerPage = 10;
 
 //convert js data into table format
 function createTable(array) {
-  //const rowsPerPage = Number(select.value);
   let totalPages = Math.ceil(array.length / rowsPerPage);   //11
   const start = (currentPage - 1) * rowsPerPage;            //first displaying index number in each case
   const end = start + rowsPerPage;                          //last displaying index number
   const paginatedArray = array.slice(start, end)            //new array will be created acording th start and end
 
-  tableBody.innerHTML = " ";      //The innerHTML property of elements reads and updates the HTML or  "" text that is inside the element.
+  tableBody.innerHTML = " ";                               //The innerHTML property of elements reads and updates the HTML or  "" text that is inside the element.
   for (let i = 0; i < paginatedArray.length; i++) {
     let rows = `<tr>
                 <td>${paginatedArray[i].id}</td>
                 <td>${paginatedArray[i].name}</td>
                 <td>${paginatedArray[i].department}</td>
                 </tr>`
-    tableBody.innerHTML += rows;    //this will add a row after row continue...
+    tableBody.innerHTML += rows;                             //this will add a row after row continue...
     //table is an element and innerHTML are the contents within the element.  
     //The Element property (.innerHTML) method gets or sets the HTML. Setting the value of innerHTML removes all of the element's descendants and replaces them with nodes constructed by parsing the HTML
   }
   pagination.innerHTML = "";
 
+  //to select number of rows displaying on the screen
+ function selectChange(){
+   rowsPerPage = Number(select.value);
+   createTable(array);
+}
+select.addEventListener("change", selectChange);
+
   //function for previous button functionality
-  const prev = document.createElement("button")    //document.createElement -> creates an Element node (prev btn)
-  prev.innerHTML = "Prev";                         //set the html button element previous
-  prev.addEventListener("click", () => {           //onclick of prev btn current page will move backwards.
+  const prev = document.createElement("button")              //document.createElement -> creates an Element node (prev btn)
+  prev.innerHTML = "Prev";                                   //set the html button element previous
+  prev.addEventListener("click", () => {                     //onclick of prev btn current page will move backwards.
     currentPage--;
     if (currentPage < 1) {
       currentPage = 1;                             //currentpage will not get changed if at page No. 1
@@ -162,6 +164,8 @@ function createTable(array) {
     createTable(array)
   }
   )
+
+  //for hiding prev button if at page 1
   if (currentPage == 1) {
     prev.style.visibility = 'hidden';
   } else {
@@ -243,10 +247,10 @@ createTable(array);
 
 //function for searching the data wrote in search box
 function display(array) {
-  const searchValue = search.value.toLowerCase()  //what we search that value will save in lower case.
+  const searchValue = search.value.toLowerCase()                      //what we search that value will save in lower case.
   let sameData = searchTable(searchValue, array)
   currentPage = 1;
-  createTable(sameData)                           //new table will be created only displaying the same data.
+  createTable(sameData);                                              //new table will be created only displaying the same data.
 }
 
 function searchTable(searchValue, sameData) {
@@ -271,7 +275,7 @@ function searchTable(searchValue, sameData) {
 
 //sorting of data
 function sortTable(column) {  //'column' is used to specify all columns    
-  //assign required variables
+  //assign required parameters
   var rows, switching, i, x, y, shouldSwitch, direction, switchcount = 0;
   switching = true;
   //Set the sorting direction to descending:
@@ -279,13 +283,9 @@ function sortTable(column) {  //'column' is used to specify all columns
   //loop that will continue until no switching has been done
   while (switching) {
     //A "While" Loop is used to repeat a specific block of code an unknown number of times, until a condition is met. 
-    //start by saying: no switching is done as by it should not done automatically
-    //switching = false;
     rows = tableBody.rows;
 
-    //Loop through all table rows (except the first, which contains table headers):
     for (i = 0; i < (rows.length - 1); i++) {
-      //length -1 will count till the last element.
       //Get the two elements you want to compare, one from current row and one from the next
       x = rows[i].getElementsByTagName("td")[column];
       y = rows[i + 1].getElementsByTagName("td")[column];
