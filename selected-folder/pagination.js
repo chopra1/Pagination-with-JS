@@ -120,19 +120,23 @@ array.splice(98, 1);
 //initializing variables
 var tableBody = document.querySelector('#myTable tbody');  //querySelector(): Returns the first element that matches a specified CSS selector(s) in the document.
 const pagination = document.querySelector("#pagination");
-const search = document.querySelector('#search');
+const search = document.querySelector('#mysearch');
+
+// const rowsPerPage = Number(select.value);
+// console.log(rowsPerPage); //10
+// totalPages = Math.ceil(rows/rowsPerPage);  
+// console.log(totalPages);  //11
 
 let currentPage = 1;
-const rowsPerpage = 10;
- 
+const rowsPerPage = 10;
+
 //convert js data into table format
 function createTable(array) {
-  let totalPages = Math.ceil(array.length / rowsPerpage);   //11
-  const start = (currentPage - 1) * rowsPerpage;            //first displaying index number in each case
-  const end = start + rowsPerpage;                          //last displaying index number
+  //const rowsPerPage = Number(select.value);
+  let totalPages = Math.ceil(array.length / rowsPerPage);   //11
+  const start = (currentPage - 1) * rowsPerPage;            //first displaying index number in each case
+  const end = start + rowsPerPage;                          //last displaying index number
   const paginatedArray = array.slice(start, end)            //new array will be created acording th start and end
-  
-//console.log(array.length); //101
 
   tableBody.innerHTML = " ";      //The innerHTML property of elements reads and updates the HTML or  "" text that is inside the element.
   for (let i = 0; i < paginatedArray.length; i++) {
@@ -142,11 +146,10 @@ function createTable(array) {
                 <td>${paginatedArray[i].department}</td>
                 </tr>`
     tableBody.innerHTML += rows;    //this will add a row after row continue...
-//table is an element and innerHTML are the contents within the element.  
-//The Element property (.innerHTML) method gets or sets the HTML. Setting the value of innerHTML removes all of the element's descendants and replaces them with nodes constructed by parsing the HTML
+    //table is an element and innerHTML are the contents within the element.  
+    //The Element property (.innerHTML) method gets or sets the HTML. Setting the value of innerHTML removes all of the element's descendants and replaces them with nodes constructed by parsing the HTML
   }
-
-  pagination.innerHTML = " ";
+  pagination.innerHTML = "";
 
   //function for previous button functionality
   const prev = document.createElement("button")    //document.createElement -> creates an Element node (prev btn)
@@ -158,13 +161,13 @@ function createTable(array) {
     }
     createTable(array)
   }
-)
-if (currentPage == 1) {
-  prev.style.visibility = 'hidden';
-} else {
-  prev.style.visibility = 'visible';
-}
-  if (array != "") {pagination.appendChild(prev)};
+  )
+  if (currentPage == 1) {
+    prev.style.visibility = 'hidden';
+  } else {
+    prev.style.visibility = 'visible';
+  }
+  if (array != "") { pagination.appendChild(prev) };
 
   //for adding individual buttons in the pagination and making them active too.
   for (let i = 1; i <= totalPages; i++) {
@@ -173,11 +176,39 @@ if (currentPage == 1) {
     if (i == currentPage) {
       pageNo.classList.add('active')
     }
+
+    //Add dots between first 2 and last 2 buttons
+    if (i == currentPage + 2 && i <= totalPages - 1) {
+      const dots = document.createElement('span');
+      dots.innerHTML = ". . .";
+      pagination.appendChild(dots);
+    }
+    if ((i >= currentPage + 2 && i < totalPages - 1) || (i < currentPage && i <= totalPages)) continue
+    //continue for every current page first 2 digits and last two digits. 
+    if (currentPage == totalPages && currentPage >= 4) {         //if i click to the last number than it will show 1,2..
+      const dots = document.createElement('span')
+      dots.innerHTML = ". . ."
+      const first = document.createElement('button')
+      first.innerHTML = 1;
+      const second = document.createElement('button')
+      second.innerHTML = 2;
+      first.addEventListener('click', () => {
+        currentPage = 1;
+        createTable(array);
+      })
+      second.addEventListener('click', () => {
+        currentPage = 2;
+        createTable(array)
+      })
+      pagination.appendChild(first);
+      pagination.appendChild(second);
+      pagination.appendChild(dots);
+    }
     pageNo.addEventListener("click", () => {   //attach an event handler to the document
       currentPage = i;
       createTable(array)
     })
-    if (array != "") {pagination.appendChild(pageNo)};
+    if (array != "") { pagination.appendChild(pageNo) };
   }
 
   //function for next button functionality.
@@ -190,14 +221,25 @@ if (currentPage == 1) {
     }
     createTable(array)
   })
+
   if (currentPage == totalPages) {
     next.style.visibility = 'hidden';
-} else {
+  } else {
     next.style.visibility = 'visible';
-}
+  }
   if (array != "") pagination.appendChild(next);
+
+  //If searched data is not available
+  if (array == "") {
+    let dataUnavail = document.createElement('h1');
+    dataUnavail.innerHTML = "No Records Found";
+    dataUnavail.setAttribute("id", "dataUnavail");
+    dataUnavail.setAttribute("name", "dataUnavail");
+    dataUnavail.setAttribute("department", "dataUnavil");
+    pagination.appendChild(dataUnavail);
+  }
 }
-createTable(array)
+createTable(array);
 
 //function for searching the data wrote in search box
 function display(array) {
@@ -208,15 +250,13 @@ function display(array) {
 }
 
 function searchTable(searchValue, sameData) {
-  let filteredsameData = [];                             //this creates a new array with only filtered data stored within.
+  let filteredsameData = [];
   for (let i = 0; i < sameData.length; i++) {
-    var searchValue = searchValue.toLowerCase()        // word or letter entered in search box is all converted in lowercase. 
+    let idarray = sameData[i].id
+    let namearray = sameData[i].name.toLowerCase();
+    let departmentarray = sameData[i].department.toLowerCase();
 
-    let idarray = sameData[i].id.toLowerCase();                    //if user inputs 1st letter or all capital letter then searchvalue will convert it into lowercase for searching.
-    let namearray = sameData[i].name.toLowerCase()                //same
-    let departmentarray = sameData[i].department.toLowerCase()    //same
-
-    if (idarray.includes(searchValue)) {                        //if data exist .includes method return true else false. syntax - array.includes(element, start)
+    if (idarray.includes(searchValue)) {
       filteredsameData.push(sameData[i]);
     }
     else if (namearray.includes(searchValue)) {
@@ -234,7 +274,7 @@ function sortTable(column) {  //'column' is used to specify all columns
   //assign required variables
   var rows, switching, i, x, y, shouldSwitch, direction, switchcount = 0;
   switching = true;
-  //Set the sorting direction to ascending:
+  //Set the sorting direction to descending:
   direction = "descending";
   //loop that will continue until no switching has been done
   while (switching) {
@@ -242,11 +282,10 @@ function sortTable(column) {  //'column' is used to specify all columns
     //start by saying: no switching is done as by it should not done automatically
     //switching = false;
     rows = tableBody.rows;
+
     //Loop through all table rows (except the first, which contains table headers):
-    for (i = 0; i < (rows.length-1); i++) {
+    for (i = 0; i < (rows.length - 1); i++) {
       //length -1 will count till the last element.
-      //start by saying there should be no switching:
-      //shouldSwitch = false;
       //Get the two elements you want to compare, one from current row and one from the next
       x = rows[i].getElementsByTagName("td")[column];
       y = rows[i + 1].getElementsByTagName("td")[column];
